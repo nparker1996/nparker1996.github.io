@@ -1,0 +1,369 @@
+body {
+	background-color : rgb(160,210,255);
+	margin : 0;
+	overflow-y: scroll;
+	font-family: 'Montserrat', sans-serif;
+}
+
+div, img {
+	border-radius : 1em;
+}
+
+.menus {
+	position : fixed;
+	background-color : rgb(240,240,255);
+	padding-top : 1em;
+	top : 4em;
+	width : 15%;
+	left : 10%;
+	right : 75%;
+	border : 2px solid;
+}
+
+.menu {
+	border-radius : 0 1em 1em 0;
+	width : 100%;
+	box-sizing : border-box;
+	padding-top : 1em;
+	padding-bottom : 1em;
+	padding-left : 1.5em;
+	padding-right : 1.5em;
+	line-height : 3em;
+}
+.menu li {
+	padding : .5em;
+}
+
+.menu:link {
+	color : black;
+	text-decoration : none;
+}
+
+.menu:visited {
+	color : black;
+	text-decoration : none;
+}
+
+.menu:hover {
+	height : auto;
+	background-color : rgb(160,210,255);
+	color : black;
+	text-decoration : underline;
+}
+
+.menu:active {
+	color : black;
+	text-decoration : underline;
+}
+
+nav {
+	float : left;
+	border : 2px solid;
+	border-bottom-style : none;
+	border-left-style : none;
+	border-right-style : none;
+	bottom : 0;
+	padding-left : .25em;
+	padding-right : .25em;
+	width : 97%;
+	background-color : rgb(240,240,255);
+	border-radius : 0 0 1em 1em;
+}
+
+nav a:link {
+	color : blue;
+	text-decoration : none;
+}
+
+nav a:visited {
+	color : blue;
+	text-decoration : none;
+}
+
+nav a:hover {
+	color : red;
+	text-decoration : underline;
+}
+
+nav a:active {
+	color : purple;
+	text-decoration : underline;
+}
+
+.main{
+	width : 50%;
+	margin-top : 1em;
+	margin-left : 25%;
+	margin-right : 25%;
+	background-color : rgb(240,240,255);
+	opacity : .9;
+	box-shadow : 6px 6px 10px 5px rgba(240,240,255,.3);
+	border : 2px solid;
+	border-bottom-style : none;
+	border-top-style : none;
+	height : 100%;
+}
+
+#heading{
+	border-bottom : 2px solid;
+}
+
+#heading img {
+	position : relative;
+	opacity : 1;
+	right : 0;
+	float : right;
+	margin-right : 3em;
+	margin-top : 1em;
+}
+
+h1{
+	font-size : 70px;
+	margin : 0;
+	text-align : center;
+	margin-top : 50px;
+}
+
+h2{
+	font-family : ;
+	font-size : 40px;
+	margin : 0;
+	text-align : center;
+	margin-bottom : 50px;
+	border-top : 20px;
+}
+
+h3{
+	margin : 0;
+	margin-bottom : 10px;
+	text-decoration : underline;
+}
+
+#contents {
+	
+}
+
+#contents a {
+	color : black;
+	text-decoration : none;
+}
+
+.sections {
+	background-color : rgb(160,210,255);
+	margin : 30px;
+	margin-left : 50px;
+	margin-right : 50px;
+	padding : 15px;
+	overflow : auto;
+}
+
+#contents img {
+	position : relative;
+	opacity : 1;
+	float : right;
+	margin-right : 2em;
+}
+
+.sections:hover {
+	font-size : 17px;
+	box-shadow : 3px 3px 10px 3px rgba(70,150,220,.4);
+	background-color : rgb(70,150,220);
+}
+
+footer{
+	font-size : 10px;
+	color : gray;
+}
+
+/* JQuery */
+   		/*description slideshow*/
+   		#controls{
+   			width : 400px;
+   			margin-bottom : 0.5em;
+   		}
+   		
+   		#next{
+   			float : right;
+   		}
+        
+        #slides {
+		  position : static;
+		  margin : auto;
+		  width : 300px;
+		  border-radius : 1em 1em 0 0;
+          display : none;
+        }
+
+        .slidesjs-previous {
+            float : left;
+        }
+        
+        .slidesjs-next {
+            float : right;
+        }
+		
+		/*SPA*/
+		#sub {
+		width: 100%;
+		margin: 0 auto;
+		margin-top: 1em;
+		}
+
+		#sub ul {
+		list-style-type: none;
+		padding: 0;
+		margin: 0 auto;
+		text-align: center;  
+		}
+
+		#sub ul li {
+		text-align: center;
+		display: inline;
+		padding-left: 15px;
+		padding-right: 15px;
+		font-size: 1.5em;
+		}
+
+		#sub ul li a {
+		width: 40px;
+		text-decoration: none;
+		color: blue;
+		}
+
+		#sub ul li a.selected {
+		border-bottom: 2px solid #333;
+		color: blue;
+		}
+
+		#sub ul li a:visited, #sub ul li a:active {
+		color: blue;
+		}
+		
+		#abominationContent, #SCDTContent, #noteContent {
+			display : none;
+		}
+
+/* Media Queries */
+	@media screen and (max-width: 1280px){
+	
+	.main{
+	width : 70%;
+	margin-top : 1em;
+	margin-left : 25%;
+	margin-right : 5%;
+	background-color : rgb(240,240,255);
+	opacity : .9;
+	box-shadow : 6px 6px 10px 5px rgba(240,240,255,.3);
+	border : 1px solid;
+	border-bottom-style : none;
+	border-top-style : none;
+	height : 100%;
+	}
+
+	.menus {
+	position : fixed;
+	background-color : rgb(240,240,255);
+	padding-top : 1em;
+	top : 4em;
+	width : 25%;
+	left : 0;
+	right : 65%;
+	border : 2px solid;
+	font-size : 10px;
+	}
+
+	h1{
+	font-size : 50px;
+	margin : 0;
+	text-align : center;
+	margin-top : 50px;
+		}
+
+	h2{
+	font-size : 20px;
+	margin : 0;
+	text-align : center;
+	margin-bottom : 20px;
+	border-top : 10px;
+	}
+
+	#heading img {
+	position : relative;
+	right : 0;
+	float : right;
+	margin-right : 1em;
+	margin-top : 1em;
+	width : 80%;
+}
+
+	nav {
+	float : left;
+	border : 2px solid;
+	border-bottom-style : none;
+	border-left-style : none;
+	border-right-style : none;
+	bottom : 0;
+	padding-left : .25em;
+	padding-right : .25em;
+	width : 97%;
+	background-color : rgb(240,240,255);
+	border-radius : 0 0 1em 1em;
+	}
+	
+	.sections {
+		background-color : rgb(160,210,255);
+		font-size : 15px;
+		margin : 30px;
+		padding : 15px;
+		overflow : auto;
+	}
+	
+	.sections:hover {
+		font-size : 15px;
+		box-shadow : 3px 3px 10px 3px rgba(70,150,220,.4);
+		background-color : rgb(70,150,220);
+	}
+	
+	#contents img {
+		position : relative;
+		opacity : 1;
+		float : right;
+		margin-right : 0em;
+	}
+	
+	/*JQuery*/
+	#slides {
+		  position : static;
+		  margin : auto;
+		  width : 300px;
+		  border-radius : 1em 1em 0 0;
+          display : none;
+        }
+
+/*SPA*/
+	#sub {
+	width: 100%;
+	margin: 0 auto;
+	margin-top: 1em;
+	}
+
+	#sub ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0 auto;
+	text-align: center;  
+	}
+
+	#sub ul li {
+	text-align: center;
+	display: inline;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 1em;
+	}
+	
+	footer{
+		font-size : 20px;
+		color : gray;
+	}
+}

@@ -1,0 +1,9 @@
+ModPagespeed off
+ErrorDocument 404 /ndp4918/230/portfolio/error.html
+DirectoryIndex ../index.html
+
+AuthType shibboleth
+AuthName "RIT"
+ShibRequireSession On
+SSLRequireSSL
+require valid-user
