@@ -68,19 +68,19 @@
    function SPA_Personal() {
 	   $("#abomination").on("click", function(e){
 			console.log('clicked abomination');
-			$("#gameBasicContent").hide();
+			$("#ChessAIContent").hide();
 			$("#abominationContent").fadeIn();
 			
-			$("#gameBasic").removeClass("selected");
+			$("#ChessAI").removeClass("selected");
 			$("#abomination").addClass("selected");
 		});
-		$("#gameBasic").on("click", function(e){
-			console.log('clicked gameBasic');
+		$("#ChessAI").on("click", function(e){
+			console.log('clicked ChessAI');
 			$("#abominationContent").hide();
-			$("#gameBasicContent").fadeIn();
+			$("#ChessAIContent").fadeIn();
 			
 			$("#abomination").removeClass("selected");
-			$("#gameBasic").addClass("selected");
+			$("#ChessAI").addClass("selected");
 		});
    }
    
@@ -88,18 +88,32 @@
 	   $("#SCDT").on("click", function(e){
 			console.log('clicked SCDT');
 			$("#gsContent").hide();
+            $("#PulpContent").hide();
 			$("#SCDTContent").fadeIn();
 			
 			$("#GS").removeClass("selected");
+            $("#Pulp").removeClass("selected");
 			$("#SCDT").addClass("selected");
 		});
 		$("#GS").on("click", function(e){
 			console.log('clicked GS');
 			$("#SCDTContent").hide();
+            $("#PulpContent").hide();
 			$("#gsContent").fadeIn();
 			
 			$("#SCDT").removeClass("selected");
+            $("#Pulp").removeClass("selected");
 			$("#GS").addClass("selected");
+		});
+       $("#Pulp").on("click", function(e){
+			console.log('clicked Pulp');
+			$("#gsContent").hide();
+            $("#SCDTContent").hide();
+			$("#PulpContent").fadeIn();
+			
+			$("#GS").removeClass("selected");
+            $("#SCDT").removeClass("selected");
+			$("#Pulp").addClass("selected");
 		});
    }
    function SPA_Contact() {
