@@ -20,119 +20,37 @@
 		<a href="#" id="personal" class="menu" style="background-color : rgb(70,150,220);">Personal Projects</a><br/>
 		<a href="contact_info.html" id="Contact" class="menu">Contact</a><br/>
 		<a href="resume.html" id="resume" class="menu">Resume</a><br/>
-    <div class="social">
-				<a href="https://github.com/nparker1996">
-				<div style="display : inline-block;">
-					<img src="images/Githublogo.png" alt="Noah's Github" width="32" height="32"/>
-				</div>
-				</a>
-                <a href="https://www.linkedin.com/in/noah-parker-65133aa4?trk=nav_responsive_tab_profile">
-				<div style="display : inline-block;">
-					<img src="images/LinkedInlogo.png" alt="LinkedIn" width="32" height="32"/>
-				</div>
-				</a>
-				<a href="https://www.facebook.com/noah.parker.14">
-				<div style="display : inline-block;">
-					<img src="images/fblogo.png" alt="Facebook" width="32" height="32"/>
-				</div>
-				</a>
-        </div>
-    
 		<nav><a href="index.html">Home</a> >> <a href="#">Personal Projects</a></nav>
 </div>
 <div class="main">
 	<br/>
 	<div id="sub">
         <ul>
-            <li><a href="#" id="ChessAI" class="selected">Chess AI</a></li>
+            <li><a href="#" id="gameBasic" class="selected">Game Basic</a></li>
             <li><a href="#" id="abomination">Abomination Project</a></li>
         </ul>
 	</div>
-	<section id="ChessAIContent">
+	<section id="gameBasicContent">
 		<section id="heading">
 			<br/>
 			<h1>Personal Projects:</h1>
-			<h2>Chess AI</h2>
+			<h2>Game Basic</h2>
 		</section>
 		<section id="contents">
 			<div class="sections">
-				<h3>AI Playing Chess</h3>
+				<h3>Game Basic Library</h3>
 				<p>
-				This is a C# project that I started over the summer of 2016. I did this to learn more about different forms of artificial intelligence (AI). I used the classic game of Chess as my base because it shows strategy with very little randomness to it.
+				This library was originally created by Peter Cowal in Java. I have decided to convert it to C#. It is a libray that allows for 
+				easier creation of games using forms and percise manipulations of the pixels in the game or simulations.
 				</p>
 				<p>
-				I built both the Chess base and the several different forms of AI seen within this project.
+				I decided to recreate the Java version in C# because back in high school it was really helpful for me making games in Java.
+				I've been learning the differences and similarities between Java and C#. I have also been learning different small pieces
+				of code that can help me if I ever make another library in C# or another langauge.
 				</p>
+				<img src="images/javaToC.png" title="Game Basic Code" alt="Game Basic Code" style="width : 90%;"/>
 			</div>
-            <div class="sections">
-            <h3>About the AIs</h3>
-                <p>
-                For the AI of this project, I looked into different algorithms that could be used for Chess and learned about them. Then I programmed in a way that allows them to figure out the optimal move that will give the AI the best result. There are several different types of AI that I used for this project.
-                    <ul>
-                        <li><u>Optimal Decision Making with Uncertainty AI</u>
-                        <p>This AI focuses on the idea of Optimal Decision Making. Through the use of many variables, it looks upto the next turn and determines the best move to make.</p>
-                        <p>Optimal Making has three main parts:</p>
-                            <ol>
-                            <li>Pridicting the outcome of a decision</li>
-                            <li>Assigns a value to that decision</li>
-                            <li>Finds the decision that maximizes the value</li>
-                            </ol>
-                        <p>This allows the AI to makes judgements of each possible move do the one that gives itself the greatest advantage over the opponent.</p>
-                        <p>This AI is the smartest AI that I have created.</p>
-                        </li>
-                        
-                        <li><u>Maximin/ Minimax AI using Alpha-Beta Pruning</u>
-                        <p>This AI implements the minimax algorithm which makes use of Alpha-Beta pruning and Zero-sum pruning. This makes this AI a depth-first sorting algorithm.</p>
-                        <p>A Maximin algorithm looks to minimize the worst possible scenario that could occur from the next player's move. This is done by looking at all possible moves that is player could make. Then it looks at all possible moves that the other player could do off that move. This will determine the worst possible combinations of moves and which ever one is the highest, that is the move that this AI will take.</p>
-                        <p>This process takes a long time, especially if the AI is looking several moves ahead. Pruning is used to cut off paths that do not have any promise to them. </p>
-                            <ul>
-                            <li>Alpha-Beta Pruning is a search algorithm that stops completely evaluating an action when at least one possibility has been found that proves the action to be worse than a previously examined action.</li>
-                            <li>Zero-sum Pruning uses the idea that the worst action for player 1 is the best action for player 2. It seeks to maximizes player 1's action.</li>
-                            </ul>
-                        <p>Because this algorithm uses depth-first searching, the main problem became the large amount of time that it takes to find the best possible choice. Pruning helps cut this time dramatically.</p>
-                        </li>
-                        
-                        <li><u>Deap Learning Neural Network</u>
-                            <p>This AI focuses on making a neural network over many playtests to create evolve an AI to be able to win the Chess game. The algorithm that I use for this AI is based of the paper <i>'Evolving Neural Networks through Augmenting Topologies'</i> by Kenneth O. Stanley & Risto Miikkulainen.</p>
-                            <p>Just like natural selection and evolution, this algorithm creates many topologies and test them. It then takes the best topologies and mates them together and also mutates them. This process is repeated until it creates a topology that is able to win the Chess game.</p>
-                            <p>This  AI was one of the original reasons I got into AI and I find it very interesting to study and figure out ways to make AI teach themevles to do better.</p>
-                            <p>THIS HAS NOT BEEN IMPLEMENTED FULLY YET.</p>
-                        </li>
-                        
-                        <li><u>Three Stage Chess AI</u>
-                            <p>This AI is based off of the idea that in a game of Chess, there are three phases to it: the openning, the mid-game, and the end game. This AI gets seperated into those three phases and does different things depending on the phase it is in.</p>
-                                <ul>
-                                    <li>Openning: The phase where the AI developes its' pieces, gets their king to safety, and tries to control the center of the board.</li>
-                                    <li>Mid-Game: The phase where the AI attacks with and defends its' pieces.</li>
-                                    <li>End Game: The phase where most pieces are off the board and the king is usually checked.</li>
-                                </ul>
-                            <p>THIS HAS NOT BEEN IMPLEMENTED FULLY YET.</p>
-                        </li>
-                        
-                        <li><u>Variable Modifier AI</u>
-                            <p>This AI is the same as the Optimal Decision Making AI, but it allows the user to change the values of the variables that the AI uses.</p>
-                            <p>THIS HAS NOT BEEN IMPLEMENTED FULLY YET.</p>
-                        </li>
-                        
-                        <li><u>Random Choice AI</u></li>
-                        <p>This AI is used as a control to test other AIs in this project against. What it does is looks at all possible moves that can be made my the specific side, and choose one at random. It is meant to show that my other AIs are smarter than random. </p> 
-                    </ul>
-                </p>
-            </div>
-            <div class="sections">
-            <h3>About the Chess Base</h3>
-                <p>
-                It is a digitalization of the game Chess. It has all the same rules and movements as the game, from normal Bishop movements to Pawn's en passant move. It also displays all the possible moves that a selected piece can be moved to. 
-                </p>
-                <p>This took me about 3 weeks to create and work out all the bugs.</p>
-            </div>
 		</section>
-        <div class="sections">
-                <h3>Download</h3>
-                <p>
-				<a href="content/AI_Chess.zip">AI Chess by Noah Parker</a>
-				</p>
-            </div>
 	</section>
 	<section id="abominationContent">
 		<section id="heading">
@@ -157,14 +75,14 @@
 				<p>
 				The I primarily liked about it was that it was really my first game that I felt very passionate about continuing after others stopped
 				working on it. That is why I am moving it over to C# so I can continue working on it in my spare time.
+				<img src="images/rogue_bosses.png" title="Abomination Game's Bosses" alt="Abomination Game's Bosses"/>
 				</p>
 			</div>
 		</section>
 	</section>
 </div>
 <footer>
-Copyright &copy 2016 Noah Parker<br/>
-All rights reserved<br/>
+<!--#include file="footer.html"-->
 </footer>
 </body>
 </html>
