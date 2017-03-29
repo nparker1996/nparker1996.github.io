@@ -1,5 +1,8 @@
 body {
 	background-color : rgb(160,210,255);
+    background-image: url(images/Background.jpg);
+    background-attachment: fixed;
+    background-size: 100%;
 	margin : 0;
 	overflow-y: scroll;
 	font-family: 'Montserrat', sans-serif;
@@ -96,7 +99,6 @@ nav a:active {
 	margin-left : 25%;
 	margin-right : 25%;
 	background-color : rgb(240,240,255);
-	opacity : .9;
 	box-shadow : 6px 6px 10px 5px rgba(240,240,255,.3);
 	border : 2px solid;
 	border-bottom-style : none;
@@ -139,6 +141,10 @@ h3{
 	text-decoration : underline;
 }
 
+img:hover{
+    box-shadow : 0px 0px 10px 5px rgba(70,150,220,.6);
+}
+
 #contents {
 	
 }
@@ -164,8 +170,8 @@ h3{
 	margin-right : 2em;
 }
 
-.sections:hover {
-	box-shadow : 3px 3px 10px 3px rgba(70,150,220,.4);
+a .sections:hover {
+    box-shadow : 3px 3px 10px 3px rgba(70,150,220,.4);
 	background-color : rgb(70,150,220);
 }
 
@@ -181,6 +187,21 @@ h3{
 
 .social img {
         box-shadow : 3px 3px 2px rgba(70,150,220,.4);
+}
+
+#groupImages img{
+    width : 30%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 2px;
+    float : none;
+}
+
+.video{
+    margin-left : 10%;
+	margin-right : 10%;
+    width: 80%;
+    height: 400px;
 }
 
 footer{
@@ -217,42 +238,42 @@ footer{
 		
 		/*SPA*/
 		#sub {
-		width: 100%;
-		margin: 0 auto;
-		margin-top: 1em;
+		  width: 100%;
+		  margin: 0 auto;
+		  margin-top: 1em;
 		}
 
 		#sub ul {
-		list-style-type: none;
-		padding: 0;
-		margin: 0 auto;
-		text-align: center;  
+		  list-style-type: none;
+		  padding: 0;
+		  margin: 0 auto;
+		  text-align: center;  
 		}
 
 		#sub ul li {
-		text-align: center;
-		display: inline;
-		padding-left: 15px;
-		padding-right: 15px;
-		font-size: 1.5em;
+		  text-align: center;
+		  display: inline;
+		  padding-left: 15px;
+		  padding-right: 15px;
+		  font-size: 1.5em;
 		}
 
 		#sub ul li a {
-		width: 40px;
-		text-decoration: none;
-		color: blue;
+		  width: 40px;
+		  text-decoration: none;
+		  color: blue;
 		}
 
 		#sub ul li a.selected {
-		border-bottom: 2px solid #333;
-		color: blue;
+		  border-bottom: 2px solid #333;
+		  color: blue;
 		}
 
 		#sub ul li a:visited, #sub ul li a:active {
-		color: blue;
+		  color: blue;
 		}
 		
-		#abominationContent, #gsContent, #SCDTContent, #noteContent {
+		#abominationContent, #PulpContent, #OtherProjContent, #noteContent {
 			display : none;
 		}
 
@@ -265,7 +286,6 @@ footer{
 	margin-left : 25%;
 	margin-right : 5%;
 	background-color : rgb(240,240,255);
-	opacity : .9;
 	box-shadow : 6px 6px 10px 5px rgba(240,240,255,.3);
 	border : 1px solid;
 	border-bottom-style : none;
