@@ -1,16 +1,20 @@
 	"use strict";
 	
+var galleryNum = 0;
+var galleryPics = [];
    
    $(document).ready(function(){
 		console.log('loaded');
-		lightBox();
-		slideShow(); //description images
-		SPA_Personal(); //Single page Applications - Personal Projects
-		SPA_School(); //Single page Applications - School Projects
-		SPA_Contact(); //Single page Applications - Contact Info
+		//lightBox();
+		//slideShow(); //description images
+       
+       setupLoad(window.location.hash);//opens a project if there is on in the URL
+       setupButtons();//setups all the 'More info button'
+       //loadProj("#betaRangers",true);
    });
    
    //image fading//
+/*
    function lightBox(){
 	   $("img").on("click", function(e){
 				var lightbox = document.createElement("div");
@@ -42,6 +46,7 @@
 			});
    }
    
+
    //description images//
    function slideShow() {
 	   $('#slides').slidesjs(
@@ -62,78 +67,100 @@
 			}
 		);
    }
-   
-   //Single page Applications//
-   function SPA_Personal() {
-	   $("#abomination").on("click", function(e){
-			console.log('clicked abomination');
-			$("#ChessAIContent").hide();
-			$("#abominationContent").fadeIn();
-			
-			$("#ChessAI").removeClass("selected");
-			$("#abomination").addClass("selected");
-		});
-		$("#ChessAI").on("click", function(e){
-			console.log('clicked ChessAI');
-			$("#abominationContent").hide();
-			$("#ChessAIContent").fadeIn();
-			
-			$("#abomination").removeClass("selected");
-			$("#ChessAI").addClass("selected");
-		});
-   }
-   
-   function SPA_School() {
-	   $("#Beta").on("click", function(e){
-			console.log('clicked Beta');
-			$("#OtherProjContent").hide();
-            $("#PulpContent").hide();
-			$("#BetaContent").fadeIn();
-			
-			$("#OtherProj").removeClass("selected");
-            $("#Pulp").removeClass("selected");
-			$("#Beta").addClass("selected");
-		});
-       $("#Pulp").on("click", function(e){
-			console.log('clicked Pulp');
-			$("#OtherProjContent").hide();
-            $("#BetaContent").hide();
-			$("#PulpContent").fadeIn();
-			
-			$("#OtherProj").removeClass("selected");
-            $("#Beta").removeClass("selected");
-			$("#Pulp").addClass("selected");
-		});
-		$("#OtherProj").on("click", function(e){
-			console.log('clicked Other');
-			$("#BetaContent").hide();
-            $("#PulpContent").hide();
-			$("#OtherProjContent").fadeIn();
-			
-			$("#Beta").removeClass("selected");
-            $("#Pulp").removeClass("selected");
-			$("#OtherProj").addClass("selected");
-		});
-       
-   }
-   function SPA_Contact() {
-	   $("#noteInfo").on("click", function(e){
-			console.log('clicked noteInfo');
-			$("#contactContent").hide();
-			$("#noteContent").fadeIn();
-			
-			$("#contactInfo").removeClass("selected");
-			$("#noteInfo").addClass("selected");
-		});
-		$("#contactInfo").on("click", function(e){
-			console.log('clicked contactInfo');
-			$("#noteContent").hide();
-			$("#contactContent").fadeIn();
-			
-			$("#noteInfo").removeClass("selected");
-			$("#contactInfo").addClass("selected");
-		});
-   }
+   */
+
+    function setupLoad(hashLoc){//opens a project if there is on in the URL when the page is loaded
+        if(hashLoc == "") {return;}
+        switch(hashLoc){
+            case "#aboutMeInfo" :
+                loadProj(hashLoc, 0);
+                return;
+            case "#betaRangers" :
+            case "#pulpLegends" :
+            case "#unnaturalSelection" :
+                loadProj(hashLoc, 1);
+                return;
+            case "#chessAI" :
+            case "#depthRedemption" :  
+                loadProj(hashLoc, 2);
+                return;
+            default:
+                return;
+        }
+    }
+
+    function setupButtons(){
+        //document.querySelector("#readBetaRangers").onclick = function(){loadProj("#betaRangers",1);};
+        $("#readAboutMe").on('click', function(e){loadProj("#aboutMeInfo",0); document.getElementById("meDescr").scrollIntoView(true);});
+        $("#descipt").on('click', function(e){loadProj("#aboutMeInfo",0);});
+        
+        $("#readBetaRangers").on('click', function(e){loadProj("#betaRangers",1); document.getElementById("GroupDescr").scrollIntoView(true);});
+        $("#readPulpLegends").on('click', function(e){loadProj("#pulpLegends",1); document.getElementById("GroupDescr").scrollIntoView(true);});
+        $("#readUnnaturalSelection").on('click', function(e){loadProj("#unnaturalSelection",1); document.getElementById("GroupDescr").scrollIntoView(true);});
+        
+        $("#readChessAI").on('click', function(e){loadProj("#chessAI",2); document.getElementById("PersonalDescr").scrollIntoView(true);});
+        $("#readDepthRedemption").on('click', function(e){loadProj("#depthRedemption",2); document.getElementById("PersonalDescr").scrollIntoView(true);});
+        
+    }
+
+    function loadProj(projectLoc, GorP){//loads specific project
+        //closes both description areas
+        $("#meDescr").hide();
+        $("#GroupDescr").hide();
+        $("#PersonalDescr").hide();
+        //clear description areas
+        $("#meDescr").html("");
+        $("#GroupDescr").html("");
+        $("#PersonalDescr").html("");
+        
+        var projectInfo = $(projectLoc).html();
+        
+        if(GorP == 0){//about me description
+            $("#meDescr").html(projectInfo);
+            $("#meDescr").fadeIn();
+        }
+        else if(GorP == 1){//a group project
+            $("#GroupDescr").html(projectInfo);
+            $("#GroupDescr").fadeIn();
+        }
+        else if(GorP == 2){//personal project
+            $("#PersonalDescr").html(projectInfo);
+            $("#PersonalDescr").fadeIn();
+        }
+        
+        galleryDisplay(GorP);
+        
+        window.location.hash = projectLoc.slice(1);
+    }
+
+    function galleryDisplay(GorP){//figures out the images for the gallery
+        galleryNum = 0;
+        galleryPics = [];
+        var loc = "meDescr";
+        switch(GorP){
+            case 1:
+                loc = "GroupDescr";
+                break;
+            case 2:
+                loc = "PersonalDescr";
+                break;
+            default:
+                break;
+        }
+        galleryPics = document.getElementById(loc).getElementsByClassName("galleryImages");
+        galleryPics[galleryNum].style.display = 'inline';
+        
+        $("#leftArrow").click(function(e){changeImage(-1);});
+        $("#rightArrow").click(function(e){changeImage(1);});
+    }
+
+    function changeImage(amount){//changes images in gallery
+        galleryPics[galleryNum].style.display = 'none';
+        galleryNum += amount;
+        if(galleryNum < 0){galleryNum = galleryPics.length-1;}
+        else if(galleryNum >= galleryPics.length){galleryNum = 0;}
+        galleryPics[galleryNum].style.display = 'inline';
+    }
    
    //forms and email
    

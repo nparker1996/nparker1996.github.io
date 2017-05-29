@@ -10,70 +10,80 @@
 	<script src="jquery-2.2.3.min.js"></script>
 	<script type="text/javascript" src="scripts.js"></script>
 	
-	<title>Noah Parker's Portfolio</title>
+	<title>Portfolio | Noah Parker</title>
 </head>
 <body>
-<div class="menus">
-		<a href="#" id="home" class="menu" style="background-color : rgb(70,150,220);">Home</a><br/>
-		<a href="decription.html" id="descipt" class="menu">Description</a><br/>
-		<a href="school_work.html" id="school" class="menu">Group Projects</a><br/>
-		<a href="personal_projects.html" id="personal" class="menu">Personal Projects</a><br/>
-		<a href="contact_info.html" id="Contact" class="menu">Contact</a><br/>
-		<a href="resume.html" id="resume" class="menu">Resume</a><br/>
-        <div class="social">
-				<a href="https://github.com/nparker1996">
-				<div style="display : inline-block;">
-					<img src="images/Githublogo.png" alt="Noah's Github" width="32" height="32"/>
-				</div>
-				</a>
-                <a href="https://www.linkedin.com/in/noah-parker-65133aa4?trk=nav_responsive_tab_profile">
-				<div style="display : inline-block;">
-					<img src="images/LinkedInlogo.png" alt="LinkedIn" width="32" height="32"/>
-				</div>
-				</a>
-				<a href="https://www.facebook.com/noah.parker.14">
-				<div style="display : inline-block;">
-					<img src="images/fblogo.png" alt="Facebook" width="32" height="32"/>
-				</div>
-				</a>
-        </div>
-    
-		<nav><a href="index.html">Home</a></nav>
-</div>
+<nav>
+    <a href="#" id="home">Home</a>
+    <a href="#groupProjects" id="school">Group Projects</a>
+    <a href="#personalProjects" id="personal">Personal Projects</a>
+    <a href="#aboutMe" id="descipt">About Me/Contact</a>
+    <a target="_blank" href="content/Noah Parker Resume.pdf" id="resume">Résumé</a>
+</nav>
 <div class="main">
 	<section id="heading">
-		<img src="images/Noah_Portrait.jpg" title="Portrait of Noah Parker" alt="Portrait of Noah Parker" width="160" height="195"/>
-		<br/>
-		<h1>I'm Noah Parker</h1>
+		<h1>Noah Parker</h1>
 		<h2>Welcome to my Portfolio</h2>
 	</section>
 	<section id="contents">
-		<a href="decription.html">
-		<div class="sections">
-			<h3>Description of Myself</h3>
+		
+		<div class="sections" id="aboutMe" style="padding-top: 40px; padding-bottom:40px; background-color : rgb(240,240,255);">
+			<h3>Programmer</h3>
 			<p>
-			I am currently a student at Rochester Institute of Technology (RIT). My major is in Game Design and Development and I am interested in artificial Intelligence (AI). I have been programming since 2013 and have experience in these languages: C++, C#, Java, HTML, and CSS.
+			I am currently a student at Rochester Institute of Technology (RIT). My major is in Game Design and Development and I am interested in Artificial Intelligence (AI). I have been programming since 2013 and have experience in these languages: C++, C#, Java, HTML, and CSS.
 			</p>
             <p>
             I have achieved the rank of Eagle Scout in Boy Scouts as well as obtained by black belt. I consider myself a hard worker that gets what is needed done.
             </p>
+            <a id="readAboutMe" class="read">
+                Read More
+            </a>
+            
+            <!-- More info about description -->
+            <div id="meDescr" class="descr" style="display:none"></div>
 		</div>
-		</a>
-		<a href="school_work.html">
-		<div class="sections">
-			<img src="images/SamSpade.png" title="Sam Spade T-Pose" alt="Sam Spade" width="120" height="150"/>
+		
+		<div class="sections" id="groupProjects">
 			<h3>Group Projects</h3>
 			<p>
 			These are projects that I have done with other people. Working with others have been a very different experience than working on personal projects. Here are some that I am most proud of.
-			</p>
-            <p>
             These projects come from groups with many different people.
             </p>
+            <div class="Tile">
+                <img src="images/Beta/BetaEmblem.png">
+                <h3>Beta Rangers</h3>
+                <p>
+                A 4-player, PvP brawler, where you take the role of a Beta Ranger as you try to fight your fellow rangers. Fighting over the only battery, you along with the other rangers must try to charge your piece of the mech to win. Each ranger has their own powers and skills that they can use to fight the other rangers.
+                </p>
+				<a id="readBetaRangers" class="read">
+                    Read More
+                </a>
+            </div>
+            <div class="Tile">
+                <img src="images/Pulp/LucyFaire_a.png">
+                <h3>Pulp Legends</h3>
+                <p>
+                Pulp Legends is a 2D couch co-op, side scrolling, platformer set in the Noir/Pulp Fiction Universe. You play as Detectives with odd powers who must work together in order to solve the murder of the police chief. Traverse dark alleys, abandoned factories and the seedy underground of New Pulp and bring justice to the city once again.
+                </p>
+				<a id="readPulpLegends" class="read">
+                    Read More
+                </a>
+            </div>
+            <div class="Tile">
+                <img src="images/Unnatural/zoo_boxTop.jpg">
+                <h3>Unnatural Selection</h3>
+                <p>
+                Unnatural Selection: Survival of the Weirdest: the board game in which players evolve their creatures to collect various tokens before their opponents. It focuses on using character movement in order to achieve certain cards that trigger events, cause mutations in the player, or give the player special adaptability to certain zones on the board.
+                </p>
+				<a id="readUnnaturalSelection" class="read">
+                    Read More
+                </a>
+            </div>
+            
+            <!-- More info about group Project -->
+            <div id="GroupDescr" class="descr" style="display:none"></div>
 		</div>
-		</a>
-		<a href="personal_projects.html">
-		<div class="sections">
-			<img src="images/enemies_strip.png" title="Abomination Game's Enemies" alt="Abomination Game's Enemies"/>
+		<div class="sections" id="personalProjects" style="background-color: rgb(70,150,220);">
 			<h3>Personal Projects</h3>
 			<p>
 			These projects I have worked on in my free time over the course of the last few years. They focus in areas that I am interested or I just find fun. 
@@ -81,22 +91,309 @@
             <p>
             The main project that I show off here I created to learn more about AI through the use of Chess. I did the whole project by myself and it is my favorite and most invested project I have created.
             </p>
+            <div class="Tile">
+                <img src="images/ChessAI/AIQueenMove.png">
+                <h3>Chess AI</h3>
+                <p>
+                This is a C# project that I started over the summer of 2016. I did this to learn more about different forms of artificial intelligence (AI). I used the classic game of Chess as my base because it shows strategy with very little randomness to it.
+                I built both the Chess base and the several different forms of AI seen within the project.
+                </p>
+				<a id="readChessAI" class="read">
+                    Read More
+                </a>
+            </div>
+            <div class="Tile">
+                <img src="images/Depth/abomination_V.png">
+                <h3>Depth Redemption</h3>
+                <p>
+                A Rogue-like game where you must fight your way through a lab and make your way down to the bottom floor. This game was originally made in Java but is currently getting ported over the Javascript. 
+                </p>
+				<a id="readDepthRedemption" class="read">
+                    Read More
+                </a>
+            </div>
+            
+            <!-- More info about Personal Project -->
+            <div id="PersonalDescr" class="descr" style="display:none"></div>
 		</div>
-		</a>
-		<a href="contact_info.html">
-		<div class="sections">
-			<h3>Contact Information</h3>
-			<p>
-			If you would like to contact me in some form, it is here. I also give credit to the other people who helped me in the different projects I have worked on.
-			</p>
-		</div>
-		</a>
-		
 	</section>
 </div>
+
+<div class="social">
+    <a target="_blank" href="https://github.com/nparker1996">
+        <img src="images/Githublogo.png" alt="Noah's Github" width="32" height="32"/>
+    </a>
+    <a target="_blank" href="https://www.linkedin.com/in/noah-parker-65133aa4?trk=nav_responsive_tab_profile">
+        <img src="images/LinkedInlogo.png" alt="LinkedIn" width="32" height="32"/>
+    </a>
+    <a target="_blank" href="https://www.facebook.com/noah.parker.14">
+        <img src="images/fblogo.png" alt="Facebook" width="32" height="32"/>
+    </a>
+</div>
+
 <footer>
-    Copyright &copy 2016-2017 Noah Parker<br/>
-    All rights reserved<br/>
+   &copy 2016-2017 Noah Parker<br/>
 </footer>
+
+<!-- info for the description of projects -->
+    <div id="aboutMeInfo" style="display:none">
+        <h2>About Me</h2>
+        <div class="description">
+            <h3>Personal</h3>
+            <p>
+            I am Noah Parker, A student at the Rochester Institute of Technology studying for a Bachelor of Science in Game Design and Development. I personal enjoy programming and learning about different forms of AI. I consider myself a hard worker that tries their best to complete any task given. I plan so that I can stay on top of my work. I am a quiet thinker that says what is on my mind and makes sure my point gets across.
+            </p>
+            <p>
+            So far, I know the following programming languages: C#, C++, Java, HTML, CSS, JavaScript, and Lua.    
+            </p>
+            Some awards that I have receive are:
+                <ul>
+                    <li>Eagle Scout Award, from the Boy Scouts of America on July 2nd 2014</li>
+                    <li>Dean's List, from Rochester Institute of Technology from Fall of 2014 till Spring of 2016</li>
+                    <li>Black Belt, from The Academy of Modern Martial Arts in May of 2013</li>
+                </ul>
+            <p>
+            I come from Portland, Oregon and had lived there all my life up until I went to college. While in Oregon, I went to Jesuit High School in Portland. I love the North West and plan on living there my whole life.
+            </p>
+            <h3>In School</h3>
+            <p>
+                 During my college career, I have worked on many projects from video games to data base management. Algorithms, 2D art, 3D modelling, graphic engine programming, version control, web development, and programming library creation are just some of the things that I have learned about.
+            </p>
+            
+        </div>
+        <div class="gallery">
+            <img src="images/Self/Noah_Portrait.jpg"  title="Portrait of Noah Parker" alt="Portrait of Noah Parker" class="galleryImages"/>
+            <img src="images/Self/Noah_Portrait2.jpg" title="Portrait of Noah Parker" alt="Portrait of Noah Parker" class="galleryImages"/>
+            <img src="images/Self/Noah_Portrait3.jpg" title="Portrait of Noah Parker" alt="Portrait of Noah Parker" class="galleryImages"/>
+            <img src="images/Self/Noah_Portrait4.jpg" title="Portrait of Noah Parker" alt="Portrait of Noah Parker" class="galleryImages"/>
+            <img src="images/Self/Noah_Portrait5.jpg" title="Portrait of Noah Parker" alt="Portrait of Noah Parker" class="galleryImages"/>
+            <img src="images/Self/Noah_Portrait6.jpg" title="Portrait of Noah Parker" alt="Portrait of Noah Parker" class="galleryImages"/>
+            
+            <img src="images/leftArrowUp.png" id="leftArrow" class="directionArrows">
+            <img src="images/rightArrowUp.png" id="rightArrow" class="directionArrows">
+        </div>
+        <div id="outsideSchool">
+            <h3>Outside of Classes</h3>
+                <p>
+                    During my free time I practice Kali (Filipino martial art), ice skate, swing dance, and play video games.
+                </p>
+                <p>Kali is a Filipino martial art that I started when I came to RIT. It is a casual, but deadly, style that focuses on combat using sticks. It teaches how to improvise and use anything at a person's disposal to defend themselves and get out of a dangerous situation. I am currently the President and Treasurer of the Kali Club at RIT and also part of the Kali wellness class that RIT offers every semester.</p>
+                <p>Like Kali, I started doing ice skating when I got to RIT. I find it very fun and relaxing. Over the last three years I have used ice skating as a way to challenge myself to improve. It is a great form of exercise. I currently work at the Ritter Ice Arena at RIT as a rink guard and cashier.</p>
+                <p>Swing dance helps me relax. It is very energy draining but it allows me to express my feelings in a nice way. I have been doing swing for one year so far and I am planning on continuing it after I leave college.</p>
+        </div>
+    </div>
+    
+    <div id="betaRangers" style="display:none">
+        <h2>Beta Rangers</h2>
+        <div class="links">
+            <a href="content/Pulp%20Legends.zip" class="download">Download</a>
+            <a target="_blank" href="https://github.com/Josh9309/Beta-Rangers" class="gitHub">To Github</a>
+        </div>
+        <div class="description">
+            <h3>Overview</h3>
+            <p>
+            A 4-player, PvP brawler, where you take the role of a Beta Ranger as you try to fight your fellow rangers. Fighting over the only battery, you along with the other rangers must try to charge your piece of the mech to win. Each ranger has their own powers and skills that they can use to fight the other rangers. 
+            </p>
+            <p>
+            This game is a 5 week project, made in Unity, during my third year of college for my 'Game Design & Development II' class. It was co-created by Danielle Carmi, Joshua Malmquist, Robert Santiago, and myself. 
+            </p>
+            <p>
+            <iframe class="video" width="854" height="480" src="https://www.youtube.com/embed/ckl1t8S7-wc?ecver=1" frameborder="0" allowfullscreen></iframe>
+            </p>
+        </div>
+        <div class="whatIDid">
+            <h3>My Contributions</h3>
+            I was the manager and production lead for Beta Rangers. I made sure that the other three members of the team completed their work on time as well as determined what direction the project should primarily take. I also coded some of the project when there was too much work for the three others. In this area I programmed the black and pink rangers, as well as the battery and goal system.
+        </div>
+        <div class="gallery">
+            <img src="images/Beta/betaDesignDoc.png" class="galleryImages">
+            <img src="images/Beta/betarangers_A.png" class="galleryImages">
+            <img src="images/Beta/betarangers_art.png" class="galleryImages">
+            
+            <img src="images/leftArrowUp.png" id="leftArrow" class="directionArrows">
+            <img src="images/rightArrowUp.png" id="rightArrow" class="directionArrows">
+        </div>
+        
+    </div>
+    <div id="pulpLegends" style="display:none">
+        <h2>Pulp Legends</h2>
+        <div class="links">
+            <a target="_blank" href="content/Pulp%20Legends.zip" class="download">Download</a>
+            <a target="_blank" href="https://github.com/Creative-Corner-Studios/Pulp-Legends" class="gitHub">To Github</a>
+        </div>
+        <div class="description">
+            <h3>Overview</h3>
+            <p>
+            Pulp Legends is a 2D couch co-op, side scrolling, platformer set in the Noir/Pulp Fiction Universe. You play as Detectives with odd powers who must work together in order to solve the murder of the police chief. Traverse dark alleys, abandoned factories and the seedy underground of New Pulp and bring justice to the city once again.
+            </p>
+            <p>
+            This game is a 5 week project, made in Unity, during my third year of college for my 'Game Design & Development II' class. It was co-created by Anna Karwacki, Joshua Malmquist, Jason Noone, and myself. 
+            </p>
+            <p>
+            This project has thought me a lot more about teamwork and organization in a project. As a team we stay in constant communication as well as make sure we are getting our work done on time that we as a team decide. This is currently the biggest video game that I have worked on.
+            </p>
+        </div>
+        <div class="whatIDid">
+            <h3>My Contributions</h3>
+            For this project I am Lead Programmer. I worked on the code for the world controller, enemies, camera controls, and Pulp Powers. I also delegated other pieces of code like the player class, basic objects, menu controls, and character selection to other members of the team.
+        </div>
+        <div class="gallery">
+            <img src="images/Pulp/pulpMainMenu.png" title="Pulp Legend's Main Menu" alt="Pulp Legend's Main Menu" class="galleryImages"/>
+            <img src="images/Pulp/pulpCharSelect.png" title="Pulp Legend's Charater Selection Screen" alt="Pulp Legend's Charater Selection Screen" class="galleryImages"/>
+            <img src="images/Pulp/pulpGameplay2.png" title="Pulp Legend's Gameplay" alt="Pulp Legend's Gameplay" class="galleryImages"/>
+            <img src="images/Pulp/pulpGameplay3.png" title="Pulp Legend's Gameplay" alt="Pulp Legend's Gameplay" class="galleryImages"/>
+            <img src="images/Pulp/pulpGameplay4.png" title="Pulp Legend's Gameplay" alt="Pulp Legend's Gameplay" class="galleryImages"/>
+            <img src="images/Pulp/pulpGameplay1.png" title="Pulp Legend's Gameplay" alt="Pulp Legend's Gameplay" class="galleryImages"/>
+            <img src="images/Pulp/SamSpade_A.png" title="Sam Spade Character" alt="Sam Spade" class="galleryImages"/>
+            <img src="images/Pulp/LucyFaire_a.png" title="Lucy Faire Character" alt="Lucy Faire" class="galleryImages"/>
+
+            <img src="images/leftArrowUp.png" id="leftArrow" class="directionArrows">
+            <img src="images/rightArrowUp.png" id="rightArrow" class="directionArrows">
+            </div>
+    </div>
+    <div id="unnaturalSelection" style="display:none">
+        <h2>Unnatural Selection</h2>
+        <div class="links">
+            <a target="_blank" href="content/UnnaturalSelectionGameDesignDocument.pdf" class="download">Design Doc</a>
+        </div>
+        <div class="description">
+            <h3>Overview</h3>
+            <p>
+            It the survival of the weirdest. This project was created in my second year of college by 5 other people and myself in our 'Game Design & Development I' class. It is a board based around the idea of evolution, adaptations, and mutations.
+            </p>
+            <p>
+            This game is a three to eight player evolution-themed board game that focuses on using creature abilities, movement, attacking, and defending in order to get certain cards that trigger events, cause mutations in the player's creature, or give the player special adaptability in certain habitats on the board. The adaptability gives the players the chance to obtain habitat tokens; once a player gets four zone tokens and reach the end zone they win the game. 
+            </p>
+            <p>
+            The three initial ideas were a game based solely on random environment changes and the ability to adapt to them, a game that was based on achieving adaptability to different zones on one mainland, where each subsequent zone was more difficult to adapt to, and our current game. We picked our current idea because it allowed for more player interaction than the other two and was easier to add certain aspects of the other two ideas without totally changing the game.
+            </p>
+        </div>
+        <div class="whatIDid">
+            <h3>My Contributions</h3>
+            <p>
+            I was the main rule maker for this project. I had to make all the rules that the players abided by, and also fixed any loopholes that were in the game. This challenged me to make the rules specific but also make it easy for players to read and understand.
+            </p>
+        </div>
+        <div class="gallery">
+            <img src="images/Unnatural/zoo_box.jpg" title="Unnatural Selection" alt="Unnatural Selection" class="galleryImages"/>
+            <img src="images/Unnatural/zoo_board2.jpg" title="Unnatural Selection Board" alt="Unnatural Selection" class="galleryImages"/>
+            <img src="images/Unnatural/zoo_board3.jpg" title="Unnatural Selection" alt="Unnatural Selection" class="galleryImages"/>
+            <img src="images/Unnatural/zoo_board1.jpg" title="Unnatural Selection" alt="Unnatural Selection" class="galleryImages"/>
+            
+            <img src="images/leftArrowUp.png" id="leftArrow" class="directionArrows">
+            <img src="images/rightArrowUp.png" id="rightArrow" class="directionArrows">
+        </div>
+    </div>
+    
+    <div id="chessAI" style="display:none">
+        <h2>Chess AI</h2>
+        <div class="links">
+            <a href="content/AI_Chess.zip" class="download">Download</a>
+        </div>
+        <div class="description">
+            <h3>Overview</h3>
+            For the AI of this project, I looked into different algorithms that could be used for Chess and learned about them. Then I programmed in a way that allows them to figure out the optimal move that will give the AI the best result. There are several different types of AI that I used for this project.
+                    <ul>
+                        <li><u>Optimal Decision Making with Uncertainty AI</u>
+                        <p>This AI focuses on the idea of Optimal Decision Making. Through the use of many variables, it looks up to the next turn and determines the best move to make.</p>
+                        <p>Optimal Making has three main parts:</p>
+                            <ol>
+                            <li>Predicting the outcome of a decision</li>
+                            <li>Assigns a value to that decision</li>
+                            <li>Finds the decision that maximizes the value</li>
+                            </ol>
+                        <p>This allows the AI to makes judgements of each possible move do the one that gives itself the greatest advantage over the opponent.</p>
+                        <p>This AI is the smartest AI that I have created.</p>
+                        </li>
+                        
+                        <li><u>Maximin/ Minimax AI using Alpha-Beta Pruning</u>
+                        <p>This AI implements the minimax algorithm which makes use of Alpha-Beta pruning and Zero-sum pruning. This makes this AI a depth-first sorting algorithm.</p>
+                        <p>A Maximin algorithm looks to minimize the worst possible scenario that could occur from the next player's move. This is done by looking at all possible moves that is player could make. Then it looks at all possible moves that the other player could do off that move. This will determine the worst possible combinations of moves and whichever one is the highest, that is the move that this AI will take.</p>
+                        <p>This process takes a long time, especially if the AI is looking several moves ahead. Pruning is used to cut off paths that do not have any promise to them. </p>
+                            <ul>
+                            <li>Alpha-Beta Pruning is a search algorithm that stops completely evaluating an action when at least one possibility has been found that proves the action to be worse than a previously examined action.</li>
+                            <li>Zero-sum Pruning uses the idea that the worst action for player 1 is the best action for player 2. It seeks to maximize player 1's action.</li>
+                            </ul>
+                        <p>Because this algorithm uses depth-first searching, the main problem became the large amount of time that it takes to find the best possible choice. Pruning helps cut this time dramatically.</p>
+                        </li>
+                        
+                        <li><u>Deap Learning Neural Network</u>
+                            <p>This AI focuses on making a neural network over many playtests to create evolve an AI to be able to win the Chess game. The algorithm that I use for this AI is based on the paper <i>'Evolving Neural Networks through Augmenting Topologies'</i> by Kenneth O. Stanley & Risto Miikkulainen.</p>
+                            <p>Just like natural selection and evolution, this algorithm creates many topologies and test them. It then takes the best topologies and mates them together and also mutates them. This process is repeated until it creates a topology that is able to win the Chess game.</p>
+                            <p>This AI was one of the original reasons I got into AI and I find it very interesting to study and figure out ways to make AI teach themselves to do better.</p>
+                            <p>THIS HAS NOT BEEN IMPLEMENTED FULLY YET.</p>
+                        </li>
+                        
+                        <li><u>Three Stage Chess AI</u>
+                            <p>This AI is based off of the idea that in a game of Chess, there are three phases to it: the opening, the mid-game, and the end game. This AI gets separated into those three phases and does different things depending on the phase it is in.</p>
+                                <ul>
+                                    <li>Opening: The phase where the AI develops its' pieces, gets their king to safety, and tries to control the center of the board.</li>
+                                    <li>Mid-Game: The phase where the AI attacks with and defends its' pieces.</li>
+                                    <li>End Game: The phase where most pieces are off the board and the king is usually checked.</li>
+                                </ul>
+                            <p>THIS HAS NOT BEEN IMPLEMENTED FULLY YET.</p>
+                        </li>
+                        
+                        <li><u>Variable Modifier AI</u>
+                            <p>This AI is the same as the Optimal Decision Making AI, but it allows the user to change the values of the variables that the AI uses.</p>
+                            <p>THIS HAS NOT BEEN IMPLEMENTED FULLY YET.</p>
+                        </li>
+                        
+                        <li><u>Random Choice AI</u></li>
+                        <p>This AI is used as a control to test other AIs in this project against. What it does is looks at all possible moves that can be made by the specific side, and choose one at random. It is meant to show that my other AIs are smarter than random. </p> 
+                    </ul>
+        </div>
+        <div class="whatIDid">
+            <h3>About the Chess Base</h3>
+            <p>
+                It is a digitalization of the game Chess. It has all the same rules and movements as the game, from normal Bishop movements to Pawn's en passant move. It also displays all the possible moves that a selected piece can be moved to. 
+                </p>
+                <p>
+                The most difficult part of this piece of my personal project was figuring out if a king was in check or in checkmate. This was hard because when a king was got checked, I needed to figure out if the king could move or figure out if another piece could do something that would stop the king from being taken.
+                </p>
+                <p>This took me about 3 weeks to create and work out all the bugs.</p>
+        </div>
+        <div class="gallery">
+            <img src="images/ChessAI/AIstart.png" title="Starting Chess" alt="Starting Chess" class="galleryImages"/>
+            <img src="images/ChessAI/AIselect.png" title="Selecting an AI" alt="Selecting an AI" class="galleryImages"/>
+            <img src="images/ChessAI/AIcheck.png" title="The white king is checked" alt="White being checked" class="galleryImages"/>
+            
+            <img src="images/leftArrowUp.png" id="leftArrow" class="directionArrows">
+            <img src="images/rightArrowUp.png" id="rightArrow" class="directionArrows">
+        </div>
+    </div>
+    <div id="depthRedemption" style="display:none">
+        <h2>Depth Redemption</h2>
+        <div class="links">
+        <!--    <a href="" class="download">Download</a>
+            <a target="_blank" href="" class="gitHub">To Github</a> -->
+        </div>
+        <div class="description">
+            <h3>Overview</h3>
+            <p>
+            This project is was originally created by a high school friend named Peter Cowal and me. It was originally coded in Java and currently am in the process of converting it to C#.
+            </p>
+            <p>
+            Originally, this game was made at a 24 hour hackathon by Peter Cowal and myself. After the hackathon, I decided to take it upon myself and add more to it. I implemented things like version history, more items, more enemies, added more to the main menu, and I modified the dungeon generator. It also contains an inventory system, leveling up, difficult levels, randomly generated dungeon floors, pre-made dungeon floors, fog of war, weapon range, and text output.
+            </p>
+            <p>
+            The primary thing that I liked about this project was that it was really my first game that I felt very passionate about continuing after others stopped working on it. That is why I am moving it over to C# so I can continue working on it in my spare time.
+            </p>
+        </div>
+        <!-- <div class="whatIDid">
+            <h3>My Contributions</h3>
+        </div> -->
+        <div class="gallery">
+            <img src="images/Depth/enemies_strip.png" title="Enemies" alt="Enemy Strip" class="galleryImages"/>
+            <img src="images/Depth/weapons_strip.png" title="Abomination Game's Weapons" alt="Abomination Game's Weapons" class="galleryImages"/>
+            <img src="images/Depth/tileset_strip.png" title="Tiles" alt="Tiles" class="galleryImages"/>
+            <img src="images/Depth/armor_thingy.png" title="Armor" alt="Armor" class="galleryImages"/>
+            <img src="images/Depth/inventory.png" title="inventory" alt="inventory" class="galleryImages"/>
+            
+            <img src="images/leftArrowUp.png" id="leftArrow" class="directionArrows">
+            <img src="images/rightArrowUp.png" id="rightArrow" class="directionArrows">
+        </div>
+    </div>
+    
 </body>
 </html>
