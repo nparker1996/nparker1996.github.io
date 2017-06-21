@@ -21,7 +21,7 @@ h3{
 }
 
 body {
-	background-color : rgb(160,210,255);
+	background-color : rgb(191,207,222);
     background-attachment: fixed;
     background-size: 100%;
 	margin : 0;
@@ -38,7 +38,7 @@ div, img {
 nav {
     position : fixed;
     top : 0px;
-    background-color : rgb(240,240,255);
+    background-color : rgb(238,241,246);
     width : 100%;
     text-align:center;
     z-index: 2;
@@ -63,7 +63,7 @@ nav a:visited {
 }
 
 nav a:hover {
-	color : rgb(70,150,220);
+	color : rgb(75,124,165);
 	text-decoration : underline;
 }
 
@@ -94,7 +94,7 @@ nav a:active {
 }
 
 .sections {
-	background-color : rgb(160,210,255);
+	background-color : rgb(191,207,222);
 	padding : 40px;
 	padding-left : 5%;
 	padding-right : 5%;    
@@ -102,14 +102,19 @@ nav a:active {
 	overflow : auto;
 }
 
+.introPara {
+    width : 50%;
+    margin: auto;
+}
+
 div .Tile{
     width : 300px;
-    height : 600px;
+    height : 650px;
     display:inline-block;
     margin-top: 20px;
     margin-left: 5%;
     margin-right: 5%; 
-    background-color: rgb(240,240,255);
+    background-color: rgb(238,241,246);
 }
 
 .Tile img{
@@ -124,11 +129,14 @@ div .Tile{
 }
 
 .Tile p{
-    height: 220px;
+    height: 270px;
+    padding-left: 20px;
+    padding-right: 20px;
+    list-style-type: none;
 }
 
 read:target{
-    padding-top: 50px; 
+    padding-top: 50px;
 }
 
 .read, .download, .gitHub {
@@ -140,7 +148,7 @@ read:target{
 
 .read:hover, .download:hover, .gitHub:hover {
     cursor: pointer;
-    background-color: rgb(70,150,220);
+    background-color: rgb(75,124,165);
 }
 
 /* drop-down info on projects */
@@ -149,7 +157,7 @@ read:target{
     margin: auto;
     margin-top: 10px;
     padding-top: 50px; 
-    background-color: rgb(240,240,255);
+    background-color: rgb(238,241,246);
     overflow: auto;
 }
 
@@ -213,7 +221,7 @@ read:target{
 /*Social*/
 .social{
     width: 100%;
-    background-color : rgb(240,240,255);
+    background-color : rgb(238,241,246);
     display: flex;
   justify-content: center;
 }
@@ -228,7 +236,7 @@ read:target{
 }
 
 footer{
-	background-color : rgb(240,240,255);
+	background-color : rgb(238,241,246);
     font-size : 15px;
     padding-bottom: 10px;
 	color : black;
@@ -329,8 +337,8 @@ footer{
 	margin-top : 1em;
 	margin-left : 25%;
 	margin-right : 5%;
-	background-color : rgb(240,240,255);
-	box-shadow : 6px 6px 10px 5px rgba(240,240,255,.3);
+	background-color : rgb(238,241,246);
+	box-shadow : 6px 6px 10px 5px rgba(238,241,246,.3);
 	border : 1px solid;
 	border-bottom-style : none;
 	border-top-style : none;
@@ -339,7 +347,7 @@ footer{
 
 	.menus {
 	position : fixed;
-	background-color : rgb(240,240,255);
+	background-color : rgb(238,241,246);
 	padding-top : 1em;
 	top : 4em;
 	width : 25%;
@@ -383,12 +391,12 @@ footer{
 	padding-left : .25em;
 	padding-right : .25em;
 	width : 97%;
-	background-color : rgb(240,240,255);
+	background-color : rgb(238,241,246);
 	border-radius : 0 0 1em 1em;
 	}
 	
 	.sections {
-		background-color : rgb(160,210,255);
+		background-color : rgb(191,207,222);
 		font-size : 15px;
 		margin : 30px;
 		padding : 15px;
@@ -397,8 +405,8 @@ footer{
 	
 	.sections:hover {
 		font-size : 15px;
-		box-shadow : 3px 3px 10px 3px rgba(70,150,220,.4);
-		background-color : rgb(70,150,220);
+		box-shadow : 3px 3px 10px 3px rgba(75,124,165,.4);
+		background-color : rgb(75,124,165);
 	}
 	
 	#contents img {
@@ -444,4 +452,7 @@ SPA
 		color : gray;
 	}
 }
+white : 240,240,255
+light blue: 160,210,255
+dark blue: 70,150,220
 */
