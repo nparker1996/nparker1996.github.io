@@ -139,14 +139,14 @@ read:target{
     padding-top: 50px;
 }
 
-.read, .download, .gitHub {
+.read, .download, .gitHub, .playGame {
     width:100px;
     border: 2px solid;
     padding : 10px;
     margin: auto;
 }
 
-.read:hover, .download:hover, .gitHub:hover {
+.read:hover, .download:hover, .gitHub:hover, .playGame:hover {
     cursor: pointer;
     background-color: rgb(75,124,165);
 }
@@ -213,7 +213,7 @@ read:target{
     
 }
 
-.descr .gitHub, .desc .download {
+.descr .gitHub, .desc .download, .playGame {
     display: inline-block;
     margin: auto;
 }
