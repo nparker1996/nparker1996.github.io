@@ -75,10 +75,6 @@ var galleryPics = [];
             case "#aboutMeInfo" :
                 loadProj(hashLoc, 0);
                 return;
-            case "#nullSector" :
-            case "#lostAndFound" :
-                loadProj(hashLoc, 3);
-                return;
             case "#betaRangers" :
             case "#pulpLegends" :
             case "#unnaturalSelection" :
@@ -98,9 +94,6 @@ var galleryPics = [];
         $("#readAboutMe").on('click', function(e){loadProj("#aboutMeInfo",0); document.getElementById("meDescr").scrollIntoView(true);});
         $("#descipt").on('click', function(e){loadProj("#aboutMeInfo",0);});
         
-        $("#readNullSector").on('click', function(e){loadProj("#nullSector",3); document.getElementById("PublishedDescr").scrollIntoView(true);});
-        $("#readLostAndFound").on('click', function(e){loadProj("#lostAndFound",3); document.getElementById("PublishedDescr").scrollIntoView(true);});
-        
         $("#readBetaRangers").on('click', function(e){loadProj("#betaRangers",1); document.getElementById("GroupDescr").scrollIntoView(true);});
         $("#readPulpLegends").on('click', function(e){loadProj("#pulpLegends",1); document.getElementById("GroupDescr").scrollIntoView(true);});
         $("#readUnnaturalSelection").on('click', function(e){loadProj("#unnaturalSelection",1); document.getElementById("GroupDescr").scrollIntoView(true);});
@@ -113,24 +106,18 @@ var galleryPics = [];
     function loadProj(projectLoc, GorP){//loads specific project
         //closes both description areas
         $("#meDescr").hide();
-        $("#PublishedDescr").hide();
         $("#GroupDescr").hide();
         $("#PersonalDescr").hide();
         //clear description areas
         $("#meDescr").html("");
-        $("#PublishedDescr").html("");
         $("#GroupDescr").html("");
         $("#PersonalDescr").html("");
         
-        let projectInfo = $(projectLoc).html();
+        var projectInfo = $(projectLoc).html();
         
         if(GorP == 0){//about me description
             $("#meDescr").html(projectInfo);
             $("#meDescr").fadeIn();
-        }
-        else if(GorP == 3){//published work
-            $("#PublishedDescr").html(projectInfo);
-            $("#PublishedDescr").fadeIn();
         }
         else if(GorP == 1){//a group project
             $("#GroupDescr").html(projectInfo);
@@ -141,7 +128,6 @@ var galleryPics = [];
             $("#PersonalDescr").fadeIn();
         }
         
-        
         galleryDisplay(GorP);
         
         window.location.hash = projectLoc.slice(1);
@@ -150,16 +136,13 @@ var galleryPics = [];
     function galleryDisplay(GorP){//figures out the images for the gallery
         galleryNum = 0;
         galleryPics = [];
-        let loc = "meDescr";
+        var loc = "meDescr";
         switch(GorP){
             case 1:
                 loc = "GroupDescr";
                 break;
             case 2:
                 loc = "PersonalDescr";
-                break;
-            case 3:
-                loc = "PublishedDescr";
                 break;
             default:
                 break;
