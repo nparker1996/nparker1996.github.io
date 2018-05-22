@@ -12,83 +12,15 @@ var galleryPics = [];
        setupButtons();//setups all the 'More info button'
        //loadProj("#betaRangers",true);
    });
-   
-   //image fading//
-/*
-   function lightBox(){
-	   $("img").on("click", function(e){
-				var lightbox = document.createElement("div");
-				lightbox.style.position = "fixed";
-				lightbox.style.height = "100%";
-				lightbox.style.width = "100%";
-				lightbox.style.left = 0;
-				lightbox.style.top = 0;
-				lightbox.style.backgroundColor = "rgba(0,0,0,0.7)";
-				lightbox.style.display = "none";
-				var myImg = document.createElement("img");
-				myImg.src = e.target.src;
-				myImg.onload = function(){
-					myImg.style.position = "absolute";
-					var diffWidth = $(window).width()/2 - myImg.width/2;
-					var diffHeight = $(window).height()/2 - myImg.height/2;
-					myImg.style.left = diffWidth + "px";
-					myImg.style.top = diffHeight + "px";
-					
-					lightbox.appendChild(myImg);
-					document.body.appendChild(lightbox);
-					$(lightbox).fadeIn(200);
-				};
-				lightbox.addEventListener("click", function(e){
-					$(lightbox).fadeOut(200, function(){
-						lightbox.remove();
-					});
-				});
-			});
-   }
-   
-
-   //description images//
-   function slideShow() {
-	   $('#slides').slidesjs(
-			{
-				width: 200,
-				height: 200,
-				pagination:
-				{
-					active: false
-				},
-				effect:
-				{
-					slide:
-					{
-						speed: 2000
-					}
-				}
-			}
-		);
-   }
-   */
 
     function setupLoad(hashLoc){//opens a project if there is on in the URL when the page is loaded
-        if(hashLoc == "") {return;}
+        if(hashLoc == "" || hashLoc == "#projects") {return;}
         switch(hashLoc){
             case "#aboutMeInfo" :
                 loadProj(hashLoc, 0);
                 return;
-            case "#nullSector" :
-            case "#lostAndFound" :
-                loadProj(hashLoc, 3);
-                return;
-            case "#betaRangers" :
-            case "#pulpLegends" :
-            case "#unnaturalSelection" :
-                loadProj(hashLoc, 1);
-                return;
-            case "#chessAI" :
-            case "#depthRedemption" :  
-                loadProj(hashLoc, 2);
-                return;
             default:
+                loadProj(hashLoc, 1);
                 return;
         }
     }
@@ -98,29 +30,29 @@ var galleryPics = [];
         $("#readAboutMe").on('click', function(e){loadProj("#aboutMeInfo",0); document.getElementById("meDescr").scrollIntoView(true);});
         $("#descipt").on('click', function(e){loadProj("#aboutMeInfo",0);});
         
-        $("#readNullSector").on('click', function(e){loadProj("#nullSector",3); document.getElementById("PublishedDescr").scrollIntoView(true);});
-        $("#readLostAndFound").on('click', function(e){loadProj("#lostAndFound",3); document.getElementById("PublishedDescr").scrollIntoView(true);});
+        $("#readNullSector").on('click', function(e){loadProj("#nullSector",1); document.getElementById("ProjectDescr").scrollIntoView(true);});
         
-        $("#readBetaRangers").on('click', function(e){loadProj("#betaRangers",1); document.getElementById("GroupDescr").scrollIntoView(true);});
-        $("#readPulpLegends").on('click', function(e){loadProj("#pulpLegends",1); document.getElementById("GroupDescr").scrollIntoView(true);});
-        $("#readUnnaturalSelection").on('click', function(e){loadProj("#unnaturalSelection",1); document.getElementById("GroupDescr").scrollIntoView(true);});
+        $("#readLostAndFound").on('click', function(e){loadProj("#lostAndFound",1); document.getElementById("ProjectDescr").scrollIntoView(true);});
         
-        $("#readChessAI").on('click', function(e){loadProj("#chessAI",2); document.getElementById("PersonalDescr").scrollIntoView(true);});
-        $("#readDepthRedemption").on('click', function(e){loadProj("#depthRedemption",2); document.getElementById("PersonalDescr").scrollIntoView(true);});
+        $("#readBetaRangers").on('click', function(e){loadProj("#betaRangers",1); document.getElementById("ProjectDescr").scrollIntoView(true);});
+        
+        $("#readPulpLegends").on('click', function(e){loadProj("#pulpLegends",1); document.getElementById("ProjectDescr").scrollIntoView(true);});
+        
+        $("#readUnnaturalSelection").on('click', function(e){loadProj("#unnaturalSelection",1); document.getElementById("ProjectDescr").scrollIntoView(true);});
+        
+        $("#readChessAI").on('click', function(e){loadProj("#chessAI",1); document.getElementById("ProjectDescr").scrollIntoView(true);});
+        
+        $("#readDepthRedemption").on('click', function(e){loadProj("#depthRedemption",1); document.getElementById("ProjectDescr").scrollIntoView(true);});
         
     }
 
     function loadProj(projectLoc, GorP){//loads specific project
         //closes both description areas
         $("#meDescr").hide();
-        $("#PublishedDescr").hide();
-        $("#GroupDescr").hide();
-        $("#PersonalDescr").hide();
+        $("#ProjectDescr").hide();
         //clear description areas
         $("#meDescr").html("");
-        $("#PublishedDescr").html("");
-        $("#GroupDescr").html("");
-        $("#PersonalDescr").html("");
+        $("#ProjectDescr").html("");
         
         let projectInfo = $(projectLoc).html();
         
@@ -128,19 +60,10 @@ var galleryPics = [];
             $("#meDescr").html(projectInfo);
             $("#meDescr").fadeIn();
         }
-        else if(GorP == 3){//published work
-            $("#PublishedDescr").html(projectInfo);
-            $("#PublishedDescr").fadeIn();
+        else if(GorP == 1){//published work
+            $("#ProjectDescr").html(projectInfo);
+            $("#ProjectDescr").fadeIn();
         }
-        else if(GorP == 1){//a group project
-            $("#GroupDescr").html(projectInfo);
-            $("#GroupDescr").fadeIn();
-        }
-        else if(GorP == 2){//personal project
-            $("#PersonalDescr").html(projectInfo);
-            $("#PersonalDescr").fadeIn();
-        }
-        
         
         galleryDisplay(GorP);
         
@@ -153,13 +76,7 @@ var galleryPics = [];
         let loc = "meDescr";
         switch(GorP){
             case 1:
-                loc = "GroupDescr";
-                break;
-            case 2:
-                loc = "PersonalDescr";
-                break;
-            case 3:
-                loc = "PublishedDescr";
+                loc = "ProjectDescr";
                 break;
             default:
                 break;
