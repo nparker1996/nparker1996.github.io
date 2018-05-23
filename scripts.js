@@ -34,6 +34,8 @@ var galleryPics = [];
         
         $("#readLostAndFound").on('click', function(e){loadProj("#lostAndFound",1); document.getElementById("ProjectDescr").scrollIntoView(true);});
         
+        $("#readProjCyberB").on('click', function(e){loadProj("#projectCyberB",1); document.getElementById("ProjectDescr").scrollIntoView(true);});
+        
         $("#readBetaRangers").on('click', function(e){loadProj("#betaRangers",1); document.getElementById("ProjectDescr").scrollIntoView(true);});
         
         $("#readPulpLegends").on('click', function(e){loadProj("#pulpLegends",1); document.getElementById("ProjectDescr").scrollIntoView(true);});
