@@ -142,6 +142,7 @@ function Main_Menu(){
                 this.display = ["Created by Noah Parker", "For Rich Media, Project 2","", "Special thanks to Peter Cowal"];
                 break;
             case MENU.VERSION :
+                this.display = ["2.0 - Remaking the game", "2.1 - Rendering with Z"]
                 break;
             default :
                 

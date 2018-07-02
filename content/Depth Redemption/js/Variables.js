@@ -155,4 +155,4 @@ var MENU = {
     ABOUT : 3,
     VERSION : 4,
 }
-var menuTitles = ["Depth Redemption v2"," Start"," Controls"," About - by Noah Parker"," Version History"];
+var menuTitles = ["Depth Redemption v2.1"," Start"," Controls"," About - by Noah Parker"," Version History"];

@@ -48,6 +48,26 @@
     var windowViewX;
     var windowViewY;
 
+    var renderOrder= [];
+    var RENDER_LAYERS = {
+        BACKGROUND: 0,
+        TILES: 1,
+        ITEMS : 2, 
+        ENEMIES: 3,
+        PLAYER: 4,
+        PLAYER_ARMOR: 5,
+        PLAYER_WEAPON: 6,
+        FADEOUT: 7, //connect to camera
+        CROSSHAIRS: 8, //connect to camera
+        INVENTORY: 9, //connect to camera
+        INVENTORY_ITEMS: 10,//connect to camera
+        INVENTORY_ITEM_TARGETED:11,//connect to camera
+        INVENTORY_TARGET: 12,//connect to camera
+        TEXT: 13, //connect to camera
+        MINI_MAP: 14, //connect to camera
+        MINI_MAP_PLAYER: 15//connect to camera
+    };
+
     var menuText;//text displayed on main menu
     var charText; //text displaying player level, health, xp
     var invText; //text displayed when the inventory is open
@@ -89,11 +109,30 @@
         game.scale.setUserScale(3,3,0,0); //scales game by 3
         game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;//uses custom scale for render window
         
+        game.camera.bounds = null;//camera can move anywhere
+        
+        for(let i = 0; i < 16; i++){
+            renderOrder[i] = game.add.group();
+        }
+        renderOrder[RENDER_LAYERS.FADEOUT].fixedToCamera = true;//connect to camera
+        renderOrder[RENDER_LAYERS.CROSSHAIRS].fixedToCamera = true;//connect to camera
+        renderOrder[RENDER_LAYERS.INVENTORY].fixedToCamera = true;//connect to camera
+        renderOrder[RENDER_LAYERS.INVENTORY_ITEMS].fixedToCamera = true;//connect to camera
+        renderOrder[RENDER_LAYERS.INVENTORY_ITEM_TARGETED].fixedToCamera = true;//connect to camera
+        renderOrder[RENDER_LAYERS.INVENTORY_TARGET].fixedToCamera = true;//connect to camera
+        renderOrder[RENDER_LAYERS.TEXT].fixedToCamera = true;//connect to camera
+        renderOrder[RENDER_LAYERS.MINI_MAP].fixedToCamera = true;//connect to camera
+        renderOrder[RENDER_LAYERS.MINI_MAP_PLAYER].fixedToCamera = true;//connect to camera
+        
+        //console.log(renderOrder);
+        
         console.log('preload successul');
     }
 
 
     function init(){//things that need to be loaded once
+        console.log(game.camera.x + " : " + game.camera.y);
+        console.log(game.camera)
         mainMenu = new Main_Menu();
         //map = new Floor();
         player = new Player();
@@ -117,13 +156,15 @@
             //[i].generate();
         } 
         
-        map = maps[0];
+        changeMap(0);
         //map.generate();//generates map
         map.playerToStairs(true);
         
         consoleHistory = ["","","",""];//list of past actions
         
         keyActionsSetup();
+        
+        setupRenderLayers();
         
         changeState(STATE.MAIN_MENU);
         
@@ -139,7 +180,7 @@
         
         //backMusic.play();
         
-        console.log('init successul');
+        console.log('init successful');
     }
     
     function update(){//every frame update
@@ -166,11 +207,7 @@
             case STATE.CLOSE:
                 break;
             case STATE.GAME_OVER:
-                var g = game.add.graphics(0,0);
                 //backMusic.stop();
-                g.beginFill('000000');
-                g.drawRect(0,0,game.width, game.height);
-                g.endFill();
                 init();
                 break;
             case STATE.AIMING:
@@ -198,6 +235,13 @@
         
         switch(newState){
             case STATE.MAIN_MENU:
+                game.camera.target = null;
+                game.camera.setPosition(0,0);
+                renderMap(false);
+                renderPlayer(false);
+                renderInventory(false);
+                renderText(true, false, false, false);
+                renderMiniMap(false);
                 inputKeys.W.onDown.add(function(){mainMenu.scrollUp();}, this);
                 inputKeys.S.onDown.add(function(){mainMenu.scrollDown();}, this);
                 inputKeys.E.onDown.add(function(){mainMenu.select()}, this);
@@ -209,10 +253,17 @@
                 windowViewY = player.y - 4;
                 break;
             case STATE.PLAYER_TURN:
+                renderMap(true);
+                renderPlayer(true);
+                renderCrosshairs(false);
+                renderInventory(false);
+                renderText(false, true, false, true);
+                renderMiniMap(false);
                 drawMap();
                 drawItems();
                 drawEnemies();
                 drawPlayer();
+                game.camera.focusOnXY(renderOrder[RENDER_LAYERS.PLAYER].getChildAt(0).x + 12, renderOrder[RENDER_LAYERS.PLAYER].getChildAt(0).y + 12);
                 changeText(TEXT.CHAR);
                 changeText(TEXT.CONSOLE);
                 
@@ -235,10 +286,13 @@
                 inputKeys.M.onDown.add(function(){changeState(STATE.MAP);}, this);
                 break;
             case STATE.MAP:
+                renderMiniMap(true);
                 inputKeys.M.onDown.add(function(){changeState(STATE.PLAYER_TURN);}, this);
                 drawMiniMap();
                 break;
             case STATE.INVENTORY:
+                renderInventory(true);
+                renderText(false, true, true, true);
                 inputKeys.A.onDown.add(function(){player.moveInv(-1,0);}, this);
                 inputKeys.D.onDown.add(function(){player.moveInv(1,0);}, this);
                 inputKeys.W.onDown.add(function(){player.moveInv(0,-1);}, this);
@@ -254,6 +308,7 @@
                 changeState(STATE.MAIN_MENU);
                 break;
             case STATE.AIMING:
+                renderCrosshairs(true);
                 player.resetTarget();
                 inputKeys.A.onDown.add(function(){player.moveTarget(-1,0, false);}, this);
                 inputKeys.D.onDown.add(function(){player.moveTarget(1,0, false);}, this);
@@ -266,6 +321,7 @@
                     changeText(TEXT.CONSOLE);}, this);
                 break;
             case STATE.MAGIC:
+                renderCrosshairs(true);
                 player.resetTarget();
                 inputKeys.Q.onDown.add(function(){
                     changeState(STATE.PLAYER_TURN);
@@ -284,6 +340,10 @@
             default:
                 break;
         }
+    }
+
+    function changeMap(newMap){
+        map = maps[newMap];
     }
     
     ///Input functions///
@@ -307,35 +367,96 @@
     }
     
     ///Drawing functions///
+
+    function setupRenderLayers(){
+        //background
+        
+        //player
+        renderOrder[RENDER_LAYERS.PLAYER].removeAll(true);
+        let p = game.add.sprite(player.x * 24, player.y * 24,'player');
+        renderOrder[RENDER_LAYERS.PLAYER].addChild(p);
+        
+        //inventory
+        renderOrder[RENDER_LAYERS.INVENTORY].removeAll(true);
+        renderOrder[RENDER_LAYERS.INVENTORY].addChild(game.add.sprite(24, 24, 'inventory'));//inventory background
+        
+        //text
+        renderOrder[RENDER_LAYERS.TEXT].removeAll(true);
+        renderOrder[RENDER_LAYERS.TEXT].addChild(game.add.image(24, 24, menuText));
+        renderOrder[RENDER_LAYERS.TEXT].addChild(game.add.image(2, 0, charText));
+        renderOrder[RENDER_LAYERS.TEXT].addChild(game.add.image(126,24, invText));
+        renderOrder[RENDER_LAYERS.TEXT].addChild(game.add.image(2,168, consoleText));
+        renderText(false,false,false,false);
+    }
+
+    function renderMap(render){
+        renderOrder[RENDER_LAYERS.TILES].visible = render;
+        renderOrder[RENDER_LAYERS.ITEMS].visible = render;
+        renderOrder[RENDER_LAYERS.ENEMIES].visible = render;
+        renderOrder[RENDER_LAYERS.FADEOUT].visible = render;
+    }
+
+    function renderPlayer(render){
+        renderOrder[RENDER_LAYERS.PLAYER].getChildAt(0).visible = render;
+        renderOrder[RENDER_LAYERS.PLAYER_ARMOR].visible = render;
+        renderOrder[RENDER_LAYERS.PLAYER_WEAPON].visible = render;
+     }
+
+    function renderCrosshairs(render){
+        renderOrder[RENDER_LAYERS.CROSSHAIRS].visible = render;
+    }
+
+    function renderInventory(render){
+        renderOrder[RENDER_LAYERS.INVENTORY].visible = render;
+        renderOrder[RENDER_LAYERS.INVENTORY_ITEMS].visible = render;
+        renderOrder[RENDER_LAYERS.INVENTORY_ITEM_TARGETED].visible = render;
+        renderOrder[RENDER_LAYERS.INVENTORY_TARGET].visible = render;
+    }
+
+    function renderText(menuText, charText, invText, conText){
+        renderOrder[RENDER_LAYERS.TEXT].getChildAt(0).visible = menuText; //menu
+        renderOrder[RENDER_LAYERS.TEXT].getChildAt(1).visible = charText; //character
+        renderOrder[RENDER_LAYERS.TEXT].getChildAt(2).visible = invText; //inventory
+        renderOrder[RENDER_LAYERS.TEXT].getChildAt(3).visible = conText; //console
+    }
+
+    function renderMiniMap(render){
+        renderOrder[RENDER_LAYERS.MINI_MAP].visible = render;
+        renderOrder[RENDER_LAYERS.MINI_MAP_PLAYER].visible = render;
+    }
+
+
     function drawMap(){//takes every tile in the map and displays it
+        renderOrder[RENDER_LAYERS.TILES].removeAll(true);
+        renderOrder[RENDER_LAYERS.FADEOUT].removeAll(true);
+        let iwvx = 0;
+        let jwvy = 0;
         for (var i = 0; i < 15; i++) {
             for (var j = 0; j < 9; j++) {
-                if(i + windowViewX > 0 && i + windowViewX < map.tiles.length && j + windowViewY > 0 && j + windowViewY <  map.tiles[0].length){//within view area
-                    if(map.mapped[i + windowViewX][j + windowViewY] == true){
-                        game.add.sprite(i*24,j*24,'tileSet', map.tiles[i + windowViewX][j + windowViewY]);
-                        if(map.visible[i + windowViewX][j + windowViewY] == false){//with in 
-                            game.add.sprite(i*24,j*24,'tileSet', map.TILE.FADEOUT);
+                iwvx = i + windowViewX;
+                jwvy = j + windowViewY;
+                if(iwvx > 0 && iwvx < map.tiles.length && jwvy > 0 && jwvy <  map.tiles[0].length){//within view area
+                    if(map.mapped[iwvx][jwvy] == true){
+                        renderOrder[RENDER_LAYERS.TILES].addChild(game.add.sprite(iwvx*24, jwvy*24, 'tileSet', map.tiles[iwvx][jwvy]));
+                        if(map.visible[iwvx][jwvy] == false){//with in 
+                             renderOrder[RENDER_LAYERS.FADEOUT].addChild(game.add.sprite(i*24, j*24, 'tileSet', map.TILE.FADEOUT));
                         }
                     }
                     else{//not seen yet
-                     game.add.sprite(i*24,j*24,'tileSet', map.TILE.BLACK);
+                     //game.add.sprite(i*24,j*24,'tileSet', map.TILE.BLACK);
                     }
                 }
                 else{//outside map
-                     game.add.sprite(i*24,j*24,'tileSet', map.TILE.BLACK);
+                     //game.add.sprite(i*24,j*24,'tileSet', map.TILE.BLACK);
                 }
             }
         }
-    }
-
-    function drawTile(xPos, yPos){//draws tile at location
-        game.add.sprite(xPos * 24, yPos * 24,'tileSet', map.tiles[xPos][yPos]);
     }
     
     function drawAllonTile(xPos, yPos){
         var offX = (xPos - windowViewX);
         var offY = (yPos - windowViewY);
-        game.add.sprite(offX * 24, offY * 24,'tileSet', map.tiles[xPos][yPos]);
+        //game.add.sprite(offX * 24, offY * 24,'tileSet', map.tiles[xPos][yPos]);
         if(map.items[xPos][yPos] != undefined)//items
             {
                 drawItem(offX, offY, map.items[xPos][yPos].itemType, map.items[xPos][yPos].ID);
@@ -343,32 +464,43 @@
         if(xPos == player.x && yPos == player.y){drawPlayer();}
         else if(map.enemies[xPos][yPos] != undefined)//enemies
             {
-                game.add.sprite(offX*24,offY*24,'enemies',map.enemies[xPos][yPos].ID);
+                //game.add.sprite(offX*24,offY*24,'enemies',map.enemies[xPos][yPos].ID);
             }
         
     }
     
     function drawPlayer(){//draws player at locations
+        console.log(renderOrder);
         //player_anim = game.add.sprite((player.x - windowViewX) * 24, (player.y - windowViewY) * 24,'player');
-        game.add.sprite((player.x - windowViewX) * 24, (player.y - windowViewY) * 24,'player');
+        //game.add.sprite((player.x - windowViewX) * 24, (player.y - windowViewY) * 24,'player');
+        renderOrder[RENDER_LAYERS.PLAYER].getChildAt(0).x = player.x * 24;
+        renderOrder[RENDER_LAYERS.PLAYER].getChildAt(0).y = player.y * 24;
         //anim = player_anim.animations.add('walk');
         //anim.play(10, true);
-        if(player.inventory[1][0] != undefined){//holding a weapon
-            game.add.sprite((player.x - windowViewX) * 24, (player.y - windowViewY) * 24,'armors_wearing',player.inventory[1][0].ID);
+        renderOrder[RENDER_LAYERS.PLAYER_ARMOR].removeAll(true);
+        renderOrder[RENDER_LAYERS.PLAYER_WEAPON].removeAll(true);
+        if(player.inventory[1][0] != undefined){//holding a armor
+            renderOrder[RENDER_LAYERS.PLAYER_ARMOR].addChild(game.add.sprite(player.x * 24, player.y * 24, 'armors_wearing', player.inventory[1][0].ID));
         }
         if(player.inventory[0][0] != undefined){//holding a weapon
-            game.add.sprite((player.x - windowViewX) * 24, (player.y - windowViewY) * 24,'weapons_hold',player.inventory[0][0].ID);
+            renderOrder[RENDER_LAYERS.PLAYER_WEAPON].addChild(game.add.sprite(player.x * 24, player.y * 24, 'weapons_hold', player.inventory[0][0].ID));
         }
     }
 
     function drawEnemies(){
+        renderOrder[RENDER_LAYERS.ENEMIES].removeAll(true);
+        let iwvx = 0;
+        let jwvy = 0;
         for (var i = 0; i < 15; i++) {
             for (var j = 0; j < 9; j++) {
-                if(i + windowViewX > 0 && i + windowViewX < map.tiles.length && j + windowViewY > 0 && j + windowViewY <  map.tiles[0].length){//within view area
-                    if(map.enemies[i + windowViewX][j + windowViewY] != undefined)//enemies
+                iwvx = i + windowViewX;
+                jwvy = j + windowViewY;
+                if(iwvx > 0 && iwvx < map.tiles.length && jwvy > 0 && jwvy < map.tiles[0].length){//within view area
+                    if(map.enemies[iwvx][jwvy] != undefined)//enemies
                     {
-                        if(map.visible[i + windowViewX][j + windowViewY] == true){//with in visibility
-                            game.add.sprite(i*24,j*24,'enemies',map.enemies[i + windowViewX][j + windowViewY].ID);
+                        
+                        if(map.visible[iwvx][jwvy] == true){//with in visibility
+                            renderOrder[RENDER_LAYERS.ENEMIES].addChild(game.add.sprite(iwvx * 24, jwvy * 24, 'enemies', map.enemies[iwvx][jwvy].ID));
                         }
                     }
                 }
@@ -377,13 +509,18 @@
     }
     
     function drawItems(){
+        renderOrder[RENDER_LAYERS.ITEMS].removeAll(true);
+        let iwvx = 0;
+        let jwvy = 0;
         for (var i = 0; i < 15; i++) {
             for (var j = 0; j < 9; j++) {
-                if(i + windowViewX > 0 && i + windowViewX < map.tiles.length && j + windowViewY > 0 && j + windowViewY <  map.tiles[0].length){//within view area
-                    if(map.items[i + windowViewX][j + windowViewY] != undefined)//items
+                iwvx = i + windowViewX;
+                jwvy = j + windowViewY;
+                if(iwvx > 0 && iwvx < map.tiles.length && jwvy > 0 && jwvy <  map.tiles[0].length){//within view area
+                    if(map.items[iwvx][jwvy] != undefined)//items
                     {
-                        if(map.visible[i + windowViewX][j + windowViewY] == true){//with in visibility
-                            drawItem(i, j, map.items[i + windowViewX][j + windowViewY].itemType, map.items[i + windowViewX][j + windowViewY].ID);
+                        if(map.visible[iwvx][jwvy] == true){//with in visibility
+                            drawItem(iwvx, jwvy, map.items[iwvx][jwvy].itemType, map.items[iwvx][jwvy].ID);
                         }
                     }
                 }
@@ -392,22 +529,24 @@
     }
 
     function drawItem(xPos, yPos, type, iID){
-            game.add.sprite(xPos*24,yPos*24,getItemDrawType(type), iID);
+        renderOrder[RENDER_LAYERS.ITEMS].addChild(game.add.sprite(xPos*24,yPos*24,getItemDrawType(type), iID));
     }
 
     function drawInventory(){
-        game.add.sprite(24, 24, 'inventory');//inventory background
+        renderOrder[RENDER_LAYERS.INVENTORY_ITEMS].removeAll(true);
         for(var i = 0; i < 4;i++){
             for(var j = 0; j < 5; j++){
                 if(player.inventory[i][j] != undefined){//each item gets drawn
-                    game.add.sprite((1 + i)*24,(1+j)*24,getItemDrawType(player.inventory[i][j].itemType), player.inventory[i][j].ID);
+                    renderOrder[RENDER_LAYERS.INVENTORY_ITEMS].addChild(game.add.sprite((1 + i) * 24,(1+j) * 24,getItemDrawType(player.inventory[i][j].itemType), player.inventory[i][j].ID));
                 }
             }
         }
+        renderOrder[RENDER_LAYERS.INVENTORY_ITEM_TARGETED].removeAll(true);
         if(player.holding != undefined){//has item over that is being held
-            game.add.sprite((1 + player.invX) * 24, (1 + player.invY) * 24, getItemDrawType(player.holding.itemType), player.holding.ID);
+            renderOrder[RENDER_LAYERS.INVENTORY_ITEM_TARGETED].addChild(game.add.sprite((1 + player.invX) * 24, (1 + player.invY) * 24, getItemDrawType(player.holding.itemType), player.holding.ID));
         }
-        game.add.sprite((1 + player.invX) * 24, (1 + player.invY) * 24, 'crosshairs', 2);//crosshairs
+        renderOrder[RENDER_LAYERS.INVENTORY_TARGET].removeAll(true);
+        renderOrder[RENDER_LAYERS.INVENTORY_TARGET].addChild(game.add.sprite((1 + player.invX) * 24, (1 + player.invY) * 24, 'crosshairs', 2));//crosshairs
         //changeText(TEXT.INV);
     }
 
@@ -415,18 +554,18 @@
         for (var i = 1; i < 8; i++) {
             for (var j = 1; j < 6; j++) {
                 if(i + windowViewX > 0 && i + windowViewX < map.tiles.length && j + windowViewY > 0 && j + windowViewY <  map.tiles[0].length){//within view area
-                    game.add.sprite(i*24,j*24,'tileSet', map.tiles[i + windowViewX][j + windowViewY]);
+                    //game.add.sprite(i*24,j*24,'tileSet', map.tiles[i + windowViewX][j + windowViewY]);
                     if(map.enemies[i + windowViewX][j + windowViewY] != undefined)//enemies under
                     {
-                        game.add.sprite(i*24,j*24,'enemies',map.enemies[i + windowViewX][j + windowViewY].ID);
+                        //game.add.sprite(i*24,j*24,'enemies',map.enemies[i + windowViewX][j + windowViewY].ID);
                     }
                     if(map.items[i + windowViewX][j + windowViewY] != undefined)//iteme under
                     {
-                        game.add.sprite(i*24,j*24,getItemDrawType(map.items[i + windowViewX][j + windowViewY].itemType),map.items[i + windowViewX][j + windowViewY].ID);
+                        //game.add.sprite(i*24,j*24,getItemDrawType(map.items[i + windowViewX][j + windowViewY].itemType),map.items[i + windowViewX][j + windowViewY].ID);
                     }
                 }
                 else{//outside map
-                     game.add.sprite(i*24,j*24,'tileSet', map.TILE.WALL1);
+                     //game.add.sprite(i*24,j*24,'tileSet', map.TILE.WALL1);
                 }
                 drawPlayer();
                 
@@ -436,7 +575,7 @@
     }
 
     function drawHolding(){
-        game.add.sprite((1 + player.invX) * 24, (1 + player.invY) * 24, getItemDrawType(player.holding.itemType), player.holding.ID);
+        //game.add.sprite((1 + player.invX) * 24, (1 + player.invY) * 24, getItemDrawType(player.holding.itemType), player.holding.ID);
     }
 
     function getItemDrawType(type){//helper function
@@ -455,22 +594,29 @@
     }
 
     function drawTargetCrosshair(){
-        game.add.sprite((player.targetX - windowViewX) * 24, (player.targetY - windowViewY) * 24, 'crosshairs', 0);//crosshairs
+        renderOrder[RENDER_LAYERS.CROSSHAIRS].removeAll(true);
+        renderOrder[RENDER_LAYERS.CROSSHAIRS].addChild(game.add.sprite((player.targetX - windowViewX) * 24, (player.targetY - windowViewY) * 24, 'crosshairs', 0));//crosshairs
     }
 
     function drawScrollCrosshair(){
-        game.add.sprite((player.targetX - windowViewX) * 24, (player.targetY - windowViewY) * 24, 'crosshairs', 3);//crosshairs
+        renderOrder[RENDER_LAYERS.CROSSHAIRS].removeAll(true);
+        renderOrder[RENDER_LAYERS.CROSSHAIRS].addChild(game.add.sprite((player.targetX - windowViewX) * 24, (player.targetY - windowViewY) * 24, 'crosshairs', 3));//crosshairs
     }
 
     function drawMiniMap(){
+        renderOrder[RENDER_LAYERS.MINI_MAP].removeAll(true);
+        renderOrder[RENDER_LAYERS.MINI_MAP_PLAYER].removeAll(true);
         for(let i = 0; i < map.tiles.length; i++){
             for(let j = 0; j < map.tiles[0].length; j++){
-                if(map.mapped[i][j]){ game.add.sprite(i * 5, j * 5, 'minimap_tiles', map.tiles[i][j]); }
+                if(map.mapped[i][j]){
+                    renderOrder[RENDER_LAYERS.MINI_MAP].addChild(game.add.sprite(i * 5, j * 5, 'minimap_tiles', map.tiles[i][j])); 
+                }
                 //game.add.sprite(i * 5, j * 5, 'minimap_tiles', map.tiles[i][j]);
-                else { game.add.sprite(i * 5, j * 5, 'minimap_tiles', 6); }
+                else { //game.add.sprite(i * 5, j * 5, 'minimap_tiles', 6); 
+                     }
             }   
         }
-        game.add.sprite(player.x * 5, player.y * 5, 'minimap_tiles', 10);
+        renderOrder[RENDER_LAYERS.MINI_MAP_PLAYER].addChild(game.add.sprite(player.x * 5, player.y * 5, 'minimap_tiles', 10));
     }
 
     ///text functions///
@@ -492,11 +638,11 @@
                     else{text+= "  " + mainMenu.display[i] + "\n";}
                 }
                 menuText.setText(text, true, 0, 8, Phaser.RetroFont.ALIGN_LEFT);
-                game.add.image(24,24, menuText);
+                //game.add.image(24,24, menuText);
                 break;
             case TEXT.CHAR:
                 charText.setText("F" + (mapCounter + 1) + " LV" + player.level + " HP:" + player.hp + "/" + player.hpMax + " XP:" + player.xp + "/" + player.xpMax, true, 0, 0, Phaser.RetroFont.ALIGN_LEFT);
-                game.add.image(2,0, charText);
+                //game.add.image(2,0, charText);
                 break;
             case TEXT.INV:
                 text += "Str: " + player.strength + "\n";
@@ -507,14 +653,14 @@
                 text += "Agi: " + player.agility + "\n";
                 text += "Lck: " + player.luck + "\n";
                 invText.setText(text, true, 0, 1, Phaser.RetroFont.ALIGN_LEFT);
-                game.add.image(126,24, invText);
+                //game.add.image(126,24, invText);
                 break;
             case TEXT.CONSOLE:
                 for(var i = 3; i >= 0; i--){//puts input strings together
                     text += consoleHistory[i] + "\n";
                 }
                 consoleText.setText(text, true, 0, 0, Phaser.RetroFont.ALIGN_LEFT);
-                game.add.image(2,168, consoleText);
+                //game.add.image(2,168, consoleText);
                 break;
         }
         

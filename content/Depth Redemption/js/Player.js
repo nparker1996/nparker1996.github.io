@@ -292,12 +292,12 @@ function Player(){
         } 
         else if(map.tiles[this.x][this.y] == map.TILE.DOWN_STAIR && mapCounter < maps.length-1){//going down stairs
             mapCounter++;    
-            map = maps[mapCounter];
+            changeMap(mapCounter);
             map.playerToStairs(true);
         }
         else if(map.tiles[this.x][this.y] == map.TILE.UP_STAIR && mapCounter > 0){//going up stairs
             mapCounter--;    
-            map = maps[mapCounter];
+            changeMap(mapCounter);
             map.playerToStairs(false);
         }
         else {
