@@ -1,8 +1,9 @@
 "use strict";
 
 	//  properties
-    var WIDTH = 360; //648 
-    var HEIGHT = 216; //480
+    var tSize = 24; //size of all tiles
+    var WIDTH = tSize * 15; //648 
+    var HEIGHT = tSize * 9; //480
     var game = new Phaser.Game(WIDTH, HEIGHT, Phaser.AUTO, '', {preload: preload, create: init, update: update}, false, false);
 
     var inputKeys = {
@@ -75,7 +76,7 @@
     var consoleHistory;//list of past actions
 
     var textSet = "!\"#\$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
-
+    
     var backMusic;
     var clickSound;
     //var player_anim;
@@ -87,17 +88,17 @@
         game.load.audio('background_music', "Resources/Background.mp3");
         game.load.audio('click_music', "Resources/Click.mp3");
         
-        game.load.spritesheet('tileSet', 'Resources/tileset_strip12.png', 24, 24, 12);
-        game.load.image('player', 'Resources/player.png', 24, 24);
-        game.load.spritesheet('enemies', 'Resources/enemies_strip15.png', 24, 24, 15);
-        game.load.spritesheet('weapons', 'Resources/weapons_strip23.png', 24, 24, 23);
-        game.load.spritesheet('weapons_hold', 'Resources/weapons_holding_strip23.png', 24, 24, 23);
-        game.load.spritesheet('armors','Resources/armor_strip8.png', 24, 24, 8);
-        game.load.spritesheet('armors_wearing','Resources/armor_wearing_strip8.png', 24, 24, 8);
-        game.load.spritesheet('scrolls','Resources/scrolls_strip11.png', 24, 24, 11);
-        game.load.spritesheet('items','Resources/item_misc_strip8.png', 24, 24, 8);
+        game.load.spritesheet('tileSet', 'Resources/tileset_strip12.png', tSize, tSize, 12);
+        game.load.image('player', 'Resources/player.png', tSize, tSize);
+        game.load.spritesheet('enemies', 'Resources/enemies_strip15.png', tSize, tSize, 15);
+        game.load.spritesheet('weapons', 'Resources/weapons_strip23.png', tSize, tSize, 23);
+        game.load.spritesheet('weapons_hold', 'Resources/weapons_holding_strip23.png', tSize, tSize, 23);
+        game.load.spritesheet('armors','Resources/armor_strip8.png', tSize, tSize, 8);
+        game.load.spritesheet('armors_wearing','Resources/armor_wearing_strip8.png', tSize, tSize, 8);
+        game.load.spritesheet('scrolls','Resources/scrolls_strip11.png', tSize, tSize, 11);
+        game.load.spritesheet('items','Resources/item_misc_strip9.png', tSize, tSize, 9);
         game.load.image('inventory', 'Resources/inventory.png', 96, 120);
-        game.load.spritesheet('crosshairs', 'Resources/crosshair_strip5.png', 24, 24, 5);
+        game.load.spritesheet('crosshairs', 'Resources/crosshair_strip5.png', tSize, tSize, 5);
         game.load.spritesheet('minimap_tiles', 'Resources/map_strip11.png', 5,5,11);
         
         //custom level
@@ -147,12 +148,12 @@
         mapCounter = 0;
         maps = [];
         
-        for(var i = 0; i < 16; i++){
+        for(var i = 0; i < 15; i++){
             maps[i] = new Floor();
             if(i == 4) { maps[i].generateFromImage('level_5'); }
             else if(i == 9) { maps[i].generateFromImage('level_10'); }
             else if(i == 14) { maps[i].generateFromImage('level_15'); }
-            else { maps[i].generate(); }
+            else { maps[i].generate(i); }
             //[i].generate();
         } 
         
@@ -263,7 +264,7 @@
                 drawItems();
                 drawEnemies();
                 drawPlayer();
-                game.camera.focusOnXY(renderOrder[RENDER_LAYERS.PLAYER].getChildAt(0).x + 12, renderOrder[RENDER_LAYERS.PLAYER].getChildAt(0).y + 12);
+                game.camera.focusOnXY(renderOrder[RENDER_LAYERS.PLAYER].getChildAt(0).x + (tSize/2), renderOrder[RENDER_LAYERS.PLAYER].getChildAt(0).y + (tSize/2));
                 changeText(TEXT.CHAR);
                 changeText(TEXT.CONSOLE);
                 
@@ -373,18 +374,18 @@
         
         //player
         renderOrder[RENDER_LAYERS.PLAYER].removeAll(true);
-        let p = game.add.sprite(player.x * 24, player.y * 24,'player');
+        let p = game.add.sprite(player.x * tSize, player.y * tSize,'player');
         renderOrder[RENDER_LAYERS.PLAYER].addChild(p);
         
         //inventory
         renderOrder[RENDER_LAYERS.INVENTORY].removeAll(true);
-        renderOrder[RENDER_LAYERS.INVENTORY].addChild(game.add.sprite(24, 24, 'inventory'));//inventory background
+        renderOrder[RENDER_LAYERS.INVENTORY].addChild(game.add.sprite(tSize, tSize, 'inventory'));//inventory background
         
         //text
         renderOrder[RENDER_LAYERS.TEXT].removeAll(true);
         renderOrder[RENDER_LAYERS.TEXT].addChild(game.add.image(24, 24, menuText));
         renderOrder[RENDER_LAYERS.TEXT].addChild(game.add.image(2, 0, charText));
-        renderOrder[RENDER_LAYERS.TEXT].addChild(game.add.image(126,24, invText));
+        renderOrder[RENDER_LAYERS.TEXT].addChild(game.add.image(126,tSize, invText));
         renderOrder[RENDER_LAYERS.TEXT].addChild(game.add.image(2,168, consoleText));
         renderText(false,false,false,false);
     }
@@ -437,17 +438,17 @@
                 jwvy = j + windowViewY;
                 if(iwvx > 0 && iwvx < map.tiles.length && jwvy > 0 && jwvy <  map.tiles[0].length){//within view area
                     if(map.mapped[iwvx][jwvy] == true){
-                        renderOrder[RENDER_LAYERS.TILES].addChild(game.add.sprite(iwvx*24, jwvy*24, 'tileSet', map.tiles[iwvx][jwvy]));
+                        renderOrder[RENDER_LAYERS.TILES].addChild(game.add.sprite(iwvx*tSize, jwvy*tSize, 'tileSet', map.tiles[iwvx][jwvy]));
                         if(map.visible[iwvx][jwvy] == false){//with in 
-                             renderOrder[RENDER_LAYERS.FADEOUT].addChild(game.add.sprite(i*24, j*24, 'tileSet', map.TILE.FADEOUT));
+                             renderOrder[RENDER_LAYERS.FADEOUT].addChild(game.add.sprite(i*tSize, j*tSize, 'tileSet', map.TILE.FADEOUT));
                         }
                     }
                     else{//not seen yet
-                     //game.add.sprite(i*24,j*24,'tileSet', map.TILE.BLACK);
+                     //game.add.sprite(i*tSize,j*tSize,'tileSet', map.TILE.BLACK);
                     }
                 }
                 else{//outside map
-                     //game.add.sprite(i*24,j*24,'tileSet', map.TILE.BLACK);
+                     //game.add.sprite(i*tSize,j*tSize,'tileSet', map.TILE.BLACK);
                 }
             }
         }
@@ -456,7 +457,7 @@
     function drawAllonTile(xPos, yPos){
         var offX = (xPos - windowViewX);
         var offY = (yPos - windowViewY);
-        //game.add.sprite(offX * 24, offY * 24,'tileSet', map.tiles[xPos][yPos]);
+        //game.add.sprite(offX * tSize, offY * tSize,'tileSet', map.tiles[xPos][yPos]);
         if(map.items[xPos][yPos] != undefined)//items
             {
                 drawItem(offX, offY, map.items[xPos][yPos].itemType, map.items[xPos][yPos].ID);
@@ -464,26 +465,26 @@
         if(xPos == player.x && yPos == player.y){drawPlayer();}
         else if(map.enemies[xPos][yPos] != undefined)//enemies
             {
-                //game.add.sprite(offX*24,offY*24,'enemies',map.enemies[xPos][yPos].ID);
+                //game.add.sprite(offX*tSize,offY*tSize,'enemies',map.enemies[xPos][yPos].ID);
             }
         
     }
     
     function drawPlayer(){//draws player at locations
         console.log(renderOrder);
-        //player_anim = game.add.sprite((player.x - windowViewX) * 24, (player.y - windowViewY) * 24,'player');
-        //game.add.sprite((player.x - windowViewX) * 24, (player.y - windowViewY) * 24,'player');
-        renderOrder[RENDER_LAYERS.PLAYER].getChildAt(0).x = player.x * 24;
-        renderOrder[RENDER_LAYERS.PLAYER].getChildAt(0).y = player.y * 24;
+        //player_anim = game.add.sprite((player.x - windowViewX) * tSize, (player.y - windowViewY) * tSize,'player');
+        //game.add.sprite((player.x - windowViewX) * tSize, (player.y - windowViewY) * tSize,'player');
+        renderOrder[RENDER_LAYERS.PLAYER].getChildAt(0).x = player.x * tSize;
+        renderOrder[RENDER_LAYERS.PLAYER].getChildAt(0).y = player.y * tSize;
         //anim = player_anim.animations.add('walk');
         //anim.play(10, true);
         renderOrder[RENDER_LAYERS.PLAYER_ARMOR].removeAll(true);
         renderOrder[RENDER_LAYERS.PLAYER_WEAPON].removeAll(true);
         if(player.inventory[1][0] != undefined){//holding a armor
-            renderOrder[RENDER_LAYERS.PLAYER_ARMOR].addChild(game.add.sprite(player.x * 24, player.y * 24, 'armors_wearing', player.inventory[1][0].ID));
+            renderOrder[RENDER_LAYERS.PLAYER_ARMOR].addChild(game.add.sprite(player.x * tSize, player.y * tSize, 'armors_wearing', player.inventory[1][0].ID));
         }
         if(player.inventory[0][0] != undefined){//holding a weapon
-            renderOrder[RENDER_LAYERS.PLAYER_WEAPON].addChild(game.add.sprite(player.x * 24, player.y * 24, 'weapons_hold', player.inventory[0][0].ID));
+            renderOrder[RENDER_LAYERS.PLAYER_WEAPON].addChild(game.add.sprite(player.x * tSize, player.y * tSize, 'weapons_hold', player.inventory[0][0].ID));
         }
     }
 
@@ -500,7 +501,7 @@
                     {
                         
                         if(map.visible[iwvx][jwvy] == true){//with in visibility
-                            renderOrder[RENDER_LAYERS.ENEMIES].addChild(game.add.sprite(iwvx * 24, jwvy * 24, 'enemies', map.enemies[iwvx][jwvy].ID));
+                            renderOrder[RENDER_LAYERS.ENEMIES].addChild(game.add.sprite(iwvx * tSize, jwvy * tSize, 'enemies', map.enemies[iwvx][jwvy].ID));
                         }
                     }
                 }
@@ -529,7 +530,7 @@
     }
 
     function drawItem(xPos, yPos, type, iID){
-        renderOrder[RENDER_LAYERS.ITEMS].addChild(game.add.sprite(xPos*24,yPos*24,getItemDrawType(type), iID));
+        renderOrder[RENDER_LAYERS.ITEMS].addChild(game.add.sprite(xPos*tSize,yPos*tSize, getItemDrawType(type), iID));
     }
 
     function drawInventory(){
@@ -537,16 +538,16 @@
         for(var i = 0; i < 4;i++){
             for(var j = 0; j < 5; j++){
                 if(player.inventory[i][j] != undefined){//each item gets drawn
-                    renderOrder[RENDER_LAYERS.INVENTORY_ITEMS].addChild(game.add.sprite((1 + i) * 24,(1+j) * 24,getItemDrawType(player.inventory[i][j].itemType), player.inventory[i][j].ID));
+                    renderOrder[RENDER_LAYERS.INVENTORY_ITEMS].addChild(game.add.sprite((1 + i) * tSize,(1+j) * tSize,getItemDrawType(player.inventory[i][j].itemType), player.inventory[i][j].ID));
                 }
             }
         }
         renderOrder[RENDER_LAYERS.INVENTORY_ITEM_TARGETED].removeAll(true);
         if(player.holding != undefined){//has item over that is being held
-            renderOrder[RENDER_LAYERS.INVENTORY_ITEM_TARGETED].addChild(game.add.sprite((1 + player.invX) * 24, (1 + player.invY) * 24, getItemDrawType(player.holding.itemType), player.holding.ID));
+            renderOrder[RENDER_LAYERS.INVENTORY_ITEM_TARGETED].addChild(game.add.sprite((1 + player.invX) * tSize, (1 + player.invY) * tSize, getItemDrawType(player.holding.itemType), player.holding.ID));
         }
         renderOrder[RENDER_LAYERS.INVENTORY_TARGET].removeAll(true);
-        renderOrder[RENDER_LAYERS.INVENTORY_TARGET].addChild(game.add.sprite((1 + player.invX) * 24, (1 + player.invY) * 24, 'crosshairs', 2));//crosshairs
+        renderOrder[RENDER_LAYERS.INVENTORY_TARGET].addChild(game.add.sprite((1 + player.invX) * tSize, (1 + player.invY) * tSize, 'crosshairs', 2));//crosshairs
         //changeText(TEXT.INV);
     }
 
@@ -554,18 +555,18 @@
         for (var i = 1; i < 8; i++) {
             for (var j = 1; j < 6; j++) {
                 if(i + windowViewX > 0 && i + windowViewX < map.tiles.length && j + windowViewY > 0 && j + windowViewY <  map.tiles[0].length){//within view area
-                    //game.add.sprite(i*24,j*24,'tileSet', map.tiles[i + windowViewX][j + windowViewY]);
+                    //game.add.sprite(i*tSize,j*tSize,'tileSet', map.tiles[i + windowViewX][j + windowViewY]);
                     if(map.enemies[i + windowViewX][j + windowViewY] != undefined)//enemies under
                     {
-                        //game.add.sprite(i*24,j*24,'enemies',map.enemies[i + windowViewX][j + windowViewY].ID);
+                        //game.add.sprite(i*tSize,j*tSize,'enemies',map.enemies[i + windowViewX][j + windowViewY].ID);
                     }
                     if(map.items[i + windowViewX][j + windowViewY] != undefined)//iteme under
                     {
-                        //game.add.sprite(i*24,j*24,getItemDrawType(map.items[i + windowViewX][j + windowViewY].itemType),map.items[i + windowViewX][j + windowViewY].ID);
+                        //game.add.sprite(i*tSize,j*tSize,getItemDrawType(map.items[i + windowViewX][j + windowViewY].itemType),map.items[i + windowViewX][j + windowViewY].ID);
                     }
                 }
                 else{//outside map
-                     //game.add.sprite(i*24,j*24,'tileSet', map.TILE.WALL1);
+                     //game.add.sprite(i*tSize,j*tSize,'tileSet', map.TILE.WALL1);
                 }
                 drawPlayer();
                 
@@ -575,7 +576,7 @@
     }
 
     function drawHolding(){
-        //game.add.sprite((1 + player.invX) * 24, (1 + player.invY) * 24, getItemDrawType(player.holding.itemType), player.holding.ID);
+        //game.add.sprite((1 + player.invX) * tSize, (1 + player.invY) * tSize, getItemDrawType(player.holding.itemType), player.holding.ID);
     }
 
     function getItemDrawType(type){//helper function
@@ -595,12 +596,12 @@
 
     function drawTargetCrosshair(){
         renderOrder[RENDER_LAYERS.CROSSHAIRS].removeAll(true);
-        renderOrder[RENDER_LAYERS.CROSSHAIRS].addChild(game.add.sprite((player.targetX - windowViewX) * 24, (player.targetY - windowViewY) * 24, 'crosshairs', 0));//crosshairs
+        renderOrder[RENDER_LAYERS.CROSSHAIRS].addChild(game.add.sprite((player.targetX - windowViewX) * tSize, (player.targetY - windowViewY) * tSize, 'crosshairs', 0));//crosshairs
     }
 
     function drawScrollCrosshair(){
         renderOrder[RENDER_LAYERS.CROSSHAIRS].removeAll(true);
-        renderOrder[RENDER_LAYERS.CROSSHAIRS].addChild(game.add.sprite((player.targetX - windowViewX) * 24, (player.targetY - windowViewY) * 24, 'crosshairs', 3));//crosshairs
+        renderOrder[RENDER_LAYERS.CROSSHAIRS].addChild(game.add.sprite((player.targetX - windowViewX) * tSize, (player.targetY - windowViewY) * tSize, 'crosshairs', 3));//crosshairs
     }
 
     function drawMiniMap(){
@@ -638,7 +639,7 @@
                     else{text+= "  " + mainMenu.display[i] + "\n";}
                 }
                 menuText.setText(text, true, 0, 8, Phaser.RetroFont.ALIGN_LEFT);
-                //game.add.image(24,24, menuText);
+                //game.add.image(tSize,tSize, menuText);
                 break;
             case TEXT.CHAR:
                 charText.setText("F" + (mapCounter + 1) + " LV" + player.level + " HP:" + player.hp + "/" + player.hpMax + " XP:" + player.xp + "/" + player.xpMax, true, 0, 0, Phaser.RetroFont.ALIGN_LEFT);
@@ -653,7 +654,7 @@
                 text += "Agi: " + player.agility + "\n";
                 text += "Lck: " + player.luck + "\n";
                 invText.setText(text, true, 0, 1, Phaser.RetroFont.ALIGN_LEFT);
-                //game.add.image(126,24, invText);
+                //game.add.image(126,tSize, invText);
                 break;
             case TEXT.CONSOLE:
                 for(var i = 3; i >= 0; i--){//puts input strings together

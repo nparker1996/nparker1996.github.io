@@ -252,18 +252,19 @@ function Player(){
         //}
         if(this.holding!=undefined){
             if(this.holding.itemType == ITEM.BOOKS){
-                if(this.holding.ID==0){
+                if(this.holding.ID==BOOK.MEDIKIT){
                     this.hp+=Math.floor(10+this.intelligence/2);
                     if(this.hp>this.hpMax){this.hp=this.hpMax};
                     changeText(TEXT.CHAR);
                 }
-                if(this.holding.ID==1)this.strength++;
-                if(this.holding.ID==2)this.perception++;
-                if(this.holding.ID==3)this.endurance++;
-                if(this.holding.ID==4)this.charisma++;
-                if(this.holding.ID==5)this.intelligence++;
-                if(this.holding.ID==6)this.agility++;
-                if(this.holding.ID==7)this.luck++;
+                else if (this.holding.ID == BOOK.MAP_PAD) { map.revealAllTiles(); drawMap(); }
+                else if (this.holding.ID == BOOK.STR_BOOK)this.strength++;
+                else if (this.holding.ID == BOOK.PER_BOOK)this.perception++;
+                else if (this.holding.ID == BOOK.END_BOOK)this.endurance++;
+                else if (this.holding.ID == BOOK.CHA_BOOK)this.charisma++;
+                else if (this.holding.ID == BOOK.INT_BOOK)this.intelligence++;
+                else if (this.holding.ID == BOOK.AGI_BOOK)this.agility++;
+                else if (this.holding.ID == BOOK.LCK_BOOK)this.luck++;
                 changeText(TEXT.INV);
                 this.holding=null;
                 drawInventory();
@@ -408,5 +409,9 @@ function Player(){
         var med = new Item();
         med.setupInvBook(BOOK.MEDIKIT);
         this.inventory[0][1] = med;
+        
+        //var mapI = new Item();
+        //mapI.setupInvBook(BOOK.MAP_PAD);
+        //this.inventory[3][3] = mapI;
     }
 }

@@ -33,8 +33,9 @@ function Floor(){
     
     this.doorRatio = 0.5; //ratio of locked to unlocked doors
 
-    this.generate = function() {//generates the floor layout
+    this.generate = function(lvl) {//generates the floor layout
         //fill the level with walls except for a border-ish thing
+        this.level = lvl;
         this.clearTiles();
         this.generateRooms(10);
         this.generateCorridors(.5);
@@ -399,10 +400,11 @@ function Floor(){
     }
     
     this.generateEnemies = function(iterations){//generate enemies on the level
+        console.log(this.enemyProbability);
         if(iterations <= 0){return;}//no enemies will appear in level
-        var tries = 200;
+        let tries = 200;
         while(this.getTotalEnemies() < this.level + 1 && tries > 0){//make sure there are at least some enemies
-            for(var i = 0; i < iterations; i++){//iterate to create enemies
+            for(let i = 0; i < iterations; i++){//iterate to create enemies
                 if(this.enemyProbability[i % this.enemyProbability.length] > Math.random() * 100){ //check chance of creating enemy
                     this.generateSingleEnemy(i % this.enemyProbability.length);
                 }
@@ -423,8 +425,11 @@ function Floor(){
                 //var newBook = new Item();
                 //newBook.setupBook(x,y,Math.floor(Math.random()*8));
                 //this.items[x][y] = newBook;
-                this.createWorldItem(x,y,ITEM.BOOKS,Math.floor(Math.random()*8));
-                i++;
+                let itemNum = Math.floor(Math.random()*BOOK.length);
+                if(itemNum != BOOK.MAP_PAD){
+                    this.createWorldItem(x,y,ITEM.BOOKS,itemNum);
+                    i++;
+                }
             }
         }
         //add some random scrolls
@@ -477,7 +482,7 @@ function Floor(){
                 x = 2 + Math.floor (Math.random() * (this.tiles.length-4));
                 y = 2 + Math.floor (Math.random() * (this.tiles[0].length-4));
                 if (!this.isSolid(x, y)) {
-                    var id = Math.floor(15 + Math.random() * 8) % Weapon.weaponName.length;
+                    var id = Math.floor(15 + Math.random() * 8) % weaponName.length;
                     //var newWeapon = new Weapon();
                     //newWeapon.setupWeapon(x, y, id);
                     //this.items[x][y] = newWeapon;
@@ -602,32 +607,32 @@ function Floor(){
     }
     
     this.dropItem = function(xPos, yPos, eID){//enemy dies, has chance of dropping item
-        if(Math.random()*10 < 9){//enemy drops item
-            if(eID == UNIT.GUARD && Math.random() > 0.4){
+        if(Math.random() < DROPRATE.ALL_MEDKIT){//enemy drops item
+            if(eID == UNIT.GUARD && Math.random() < DROPRATE.GUARD_WEAPON_RANGED_TAZOR){
                 this.createWorldItem(xPos, yPos, ITEM.WEAPONS, WEAPON.RANGED_TAZOR);}
-            else if(eID == UNIT.SOLDIER && Math.random() > 0.6){
+            else if(eID == UNIT.SOLDIER && Math.random() < DROPRATE.SOLDIER_WEAPON_COMBAT_KNIFE){
                 this.createWorldItem(xPos, yPos, ITEM.WEAPONS, WEAPON.COMBAT_KNIFE);}
-            else if(eID == UNIT.MARINE && Math.random() > 0.6){
+            else if(eID == UNIT.MARINE && Math.random() < DROPRATE.MARINE_WEAPON_SHOTGUN){
                 this.createWorldItem(xPos, yPos, ITEM.WEAPONS, WEAPON.SHOTGUN);}
-            else if(eID == UNIT.ADVANCED_MARINE && Math.random() > 0.65){
+            else if(eID == UNIT.ADVANCED_MARINE && Math.random() < DROPRATE.ADVANCED_MARINE_WEAPON_RIFLE){
                 this.createWorldItem(xPos, yPos, ITEM.WEAPONS, WEAPON.RIFLE);}
             
-            else if(eID == UNIT.DRONE && Math.random() > 0.4){
+            else if(eID == UNIT.DRONE && Math.random() < DROPRATE.DRONE_WEAPON_PLASMA_PISTOL){
                 this.createWorldItem(xPos, yPos, ITEM.WEAPONS, WEAPON.PLASMA_PISTOL);}
-            else if(eID == UNIT.ARMORED_DRONE && Math.random() > 0.6){
+            else if(eID == UNIT.ARMORED_DRONE && Math.random() < DROPRATE.ARMORED_DRONE_ARMOR_METAL){
                 this.createWorldItem(xPos, yPos, ITEM.ARMORS, ARMOR.METAL);}
-            else if(eID == UNIT.ATTACK_DRONE && Math.random() > 0.65){
+            else if(eID == UNIT.ATTACK_DRONE && Math.random() < DROPRATE.ATTACK_DRONE_WEAPON_LASER_RIFLE){
                 this.createWorldItem(xPos, yPos, ITEM.WEAPONS, WEAPON.LASER_RIFLE);}
-            else if(eID == UNIT.SCOUT_DRONE && Math.random() > 0.4){
+            else if(eID == UNIT.SCOUT_DRONE && Math.random() < DROPRATE.SCOUT_DRONE_WEAPON_LIGHT_WAVE_EMITTER){
                 this.createWorldItem(xPos, yPos, ITEM.WEAPONS, WEAPON.LIGHT_WAVE_EMITTER);}
-            else if(eID == UNIT.TURRET && Math.random() > 0.9){
+            else if(eID == UNIT.TURRET && Math.random() < DROPRATE.TURRET_WEAPON_SNIPER_RIFLE){
                 this.createWorldItem(xPos, yPos, ITEM.WEAPONS, WEAPON.SNIPER_RIFLE);}
             
-            else if(eID == UNIT.CYBORG && Math.random() > 0.65){
+            else if(eID == UNIT.CYBORG && Math.random() < DROPRATE.CYBORG_WEAPON_PLASMA_RIFLE){
                 this.createWorldItem(xPos, yPos, ITEM.WEAPONS, WEAPON.PLASMA_RIFLE);}
-            else if(eID == UNIT.AUGMENT && Math.random() > 0.7){
+            else if(eID == UNIT.AUGMENT && Math.random() < DROPRATE.AUGMEN_WEAPON_PLASMA_BLADE){
                 this.createWorldItem(xPos, yPos, ITEM.WEAPONS, WEAPON.PLASMA_BLADE);}
-            else if(eID == UNIT.ZOMBIE && Math.random() > 0.98){
+            else if(eID == UNIT.ZOMBIE && Math.random() < DROPRATE.ZOMBIE_WEAPON_ALIEN_BLASTER){
                 this.createWorldItem(xPos, yPos, ITEM.WEAPONS, WEAPON.ALIEN_BLASTER);}
             
             else if(eID == UNIT.CAPTAIN){
@@ -664,6 +669,14 @@ function Floor(){
         }
         
         this.items[xPos][yPos] = newItem;
+    }
+    
+    this.revealAllTiles = function(){
+        for(let i = 0; i < this.floorWidth; i++){
+            for(let j = 0; j < this.floorLength; j++){
+                this.mapped[i][j] = true;
+            }
+        }
     }
     
     ///Player related functions///

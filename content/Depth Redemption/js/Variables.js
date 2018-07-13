@@ -65,16 +65,33 @@ var ITEM = {
 
 var BOOK = {
     MEDIKIT : 0,
-    STR_BOOK : 1,
-    PER_BOOK : 2,
-    END_BOOK : 3,
-    CHA_BOOK : 4,
-    INT_BOOK : 5,
-    AGI_BOOK : 6,
-    LCK_BOOK : 7
+    MAP_PAD : 1,
+    STR_BOOK : 2,
+    PER_BOOK : 3,
+    END_BOOK : 4,
+    CHA_BOOK : 5,
+    INT_BOOK : 6,
+    AGI_BOOK : 7,
+    LCK_BOOK : 8
 };
 
-var bookName = ["Medikit","STR Book","PERC Book","END Book","CHA Book", "INT Book", "AGIL Book","LUCK Book"];
+var bookName = ["Medikit","Map Pad", "STR Book","PERC Book","END Book","CHA Book", "INT Book", "AGIL Book","LUCK Book"];
+
+var DROPRATE = {
+    GUARD_WEAPON_RANGED_TAZOR : 0.6,
+    SOLDIER_WEAPON_COMBAT_KNIFE :0.6,
+    MARINE_WEAPON_SHOTGUN :0.6,
+    ADVANCED_MARINE_WEAPON_RIFLE :0.65,
+    DRONE_WEAPON_PLASMA_PISTOL :0.4,
+    ARMORED_DRONE_ARMOR_METAL :0.6,
+    ATTACK_DRONE_WEAPON_LASER_RIFLE :0.65,
+    SCOUT_DRONE_WEAPON_LIGHT_WAVE_EMITTER :0.4,
+    TURRET_WEAPON_SNIPER_RIFLE :0.9,
+    CYBORG_WEAPON_PLASMA_RIFLE :0.65,
+    AUGMEN_WEAPON_PLASMA_BLADE :0.7,
+    ZOMBIE_WEAPON_ALIEN_BLASTER :0.98,
+    ALL_MEDKIT : .9
+};
 
 //weapon class
 
