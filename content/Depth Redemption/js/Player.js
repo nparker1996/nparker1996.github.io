@@ -14,14 +14,17 @@ function Player(){
     this.damage = 1;
     this.defence = 2;
     
-    //SPECIAL
-    this.strength = 2;
-    this.perception = 2;
-    this.endurance = 2;
-    this.charisma = 2;
-    this.intelligence = 2;
-    this.agility = 2;
-    this.luck = 2;
+    
+    //skills
+    this.skill_medicine = 2; //heal/2,lvlup hpup/2, start health
+    this.skill_dodge = 2; //enemyAttack*7
+    this.skill_coordination = 2; //hit acc*7, enemySoak
+    this.skill_melee = 2; //hit acc*4, damage/2
+    this.skill_range = 2; //hit acc*4, damage/2
+    this.skill_tek = 2; //hit acc*4, damage/2
+    this.skill_programming = 2; //unlock door*3
+    this.skill_learning = 2; //lvlup hpup/2,enemyAttack, addXP/2,unlock door, unlock doorxp/4
+    this.skill_luck = 2; //hit acc*2, enemySoak, addXP/4
     
     //inventory
     this.inventory = [[],[],[],[]];
@@ -40,24 +43,27 @@ function Player(){
         this.targetY = yPos;
     }
     
-    this.setupPlayerAdv = function(xPos, yPos, statSTR, statPER, statEND, statCHR, statINT, statAGI, statLUCK){//advanced character creation
+    this.setupPlayerAdv = function(xPos, yPos, statMED, statDDG, statCRD, statMLE, statRNG, statTEK, statPRG, statLRN, statLCK){//advanced character creation
         this.setupPlayer(xPos, yPos);
-        this.strength = statSTR;
-        this.perception = statPER;
-        this.endurance = statEND;
-        this.hpMax += statEND - 2;
+        this.skill_medicine = statMED;
+        this.skill_dodge = statDDG;
+        this.skill_coordination = statCRD;
+        this.skill_melee = statMLE;
+        this.skill_range = statRNG;
+        this.skill_tek = statTEK;
+        this.skill_programming = statPRG;
+        this.skill_learning = statLRN;
+        this.skill_luck = statLCK;
+        
+        this.hpMax = 18 + statMED;
         this.hp = this.hpMax;
-        this.charisma = statCHR;
-        this.intelligence = statINT;
-        this.agility = statAGI;
-        this.luck = statLUCK;
     }
     
     ///player methods///
     this.move = function(xDir, yDir){
         if(map.enemies[this.x + xDir][this.y + yDir] != undefined)//for running into enemies // attack
         {
-            console.log("attack");
+            //console.log("attack");
             this.attack(map.enemies[this.x + xDir][this.y + yDir]);
             changeState(STATE.UPDATE);
         }
@@ -83,28 +89,48 @@ function Player(){
             this.damage = weaponDamage[myWeapon.ID];
             range = weaponRange[myWeapon.ID];
         } else {
-            type = Weapon.MELEE;
+            type = MELEE;
             this.damage = 1;
             range = 1;
         }
         if (Math.abs(this.x - baddy.x) <= range && Math.abs(this.y - baddy.y) <= range) { // checks within range
-            var doge;
-            if(unitDodge[baddy.ID]>0){ //has some dodge
-                doge = ((5 + (2 * (this.agility * 7 + this.perception*3 + this.luck * 2) + this.endurance * 2 + this.strength)) / unitDodge[baddy.ID]);
+            let hitAcc = 10 + (this.skill_coordination * 7) + (this.skill_luck * 2);
+            switch(type){
+                case MELEE:
+                    hitAcc += this.skill_melee * 4;
+                    break;
+                case RANGE :
+                    hitAcc += this.skill_range * 4;
+                    break;
+                case TEK :
+                    hitAcc += this.skill_tek * 4;
+                    break;
+                default:
+                    break;
             }
-            else{ //so no dividing by zero
-                doge = (5 + (2 * (this.agility * 7 + this.perception*3 + this.luck * 2) + this.endurance * 2 + this.strength));
-            }
-            if (Math.floor(Math.random() * 90) <= doge + unitDodge[baddy.ID]) { //attack and miss
-                var damageGive;
-                if (type == Weapon.MELEE) {
-                    damageGive = this.damage + Math.floor(this.strength / 2);
-                } else if (type == Weapon.RANGE) {
-                    damageGive = this.damage + Math.floor(this.perception / 2);
-                } else {
-                    damageGive = this.damage + Math.floor(this.intelligence / 2);
+            //if(unitDodge[baddy.ID]>0){ //has some dodge
+            //    hitAcc = ((5 + (2 * (this.agility * 7 + this.perception*3 + this.luck * 2) + this.endurance * 2 + this.strength)) / unitDodge[baddy.ID]);
+            //}
+            //else{ //so no dividing by zero
+            //    hitAcc = (5 + (2 * (this.agility * 7 + this.perception*3 + this.luck * 2) + this.endurance * 2 + this.strength));
+            //}
+            if (Math.floor(Math.random() * 90) <= hitAcc - (unitDodge[baddy.ID] * 2)) { //attack and miss
+                let damageGive = 0;
+                switch(type){
+                    case MELEE:
+                        damageGive = this.damage + Math.floor(this.skill_melee / 2);
+                        break;
+                    case RANGE:
+                        damageGive = this.damage + Math.floor(this.skill_range / 2);
+                        break;
+                    case TEK:
+                        damageGive = this.damage + Math.floor(this.skill_tek / 2);
+                        break;
+                    default:
+                        damageGive = this.damage;
+                        break;
                 }
-                if (Math.floor(Math.random() * 50) > (this.charisma + this.luck)) {//enemy soaks some damage
+                if (Math.floor(Math.random() * 50) > (this.skill_coordination + this.skill_luck)) {//enemy soaks some damage
                     damageGive = (damageGive - unitDef[baddy.ID]);
                 }
                 if (damageGive < 0) {
@@ -206,7 +232,6 @@ function Player(){
     }
     
     this.moveTarget = function(xPos, yPos, usingScroll) {//move target crosshairs around
-       drawAllonTile(this.targetX, this.targetY);
         this.targetX += xPos;
         this.targetY += yPos;
         var range;
@@ -253,18 +278,20 @@ function Player(){
         if(this.holding!=undefined){
             if(this.holding.itemType == ITEM.BOOKS){
                 if(this.holding.ID==BOOK.MEDIKIT){
-                    this.hp+=Math.floor(10+this.intelligence/2);
+                    this.hp += Math.floor(10+this.skill_medicine/2);
                     if(this.hp>this.hpMax){this.hp=this.hpMax};
                     changeText(TEXT.CHAR);
                 }
                 else if (this.holding.ID == BOOK.MAP_PAD) { map.revealAllTiles(); drawMap(); }
-                else if (this.holding.ID == BOOK.STR_BOOK)this.strength++;
-                else if (this.holding.ID == BOOK.PER_BOOK)this.perception++;
-                else if (this.holding.ID == BOOK.END_BOOK)this.endurance++;
-                else if (this.holding.ID == BOOK.CHA_BOOK)this.charisma++;
-                else if (this.holding.ID == BOOK.INT_BOOK)this.intelligence++;
-                else if (this.holding.ID == BOOK.AGI_BOOK)this.agility++;
-                else if (this.holding.ID == BOOK.LCK_BOOK)this.luck++;
+                else if (this.holding.ID == BOOK.MDC_BOOK)this.skill_medicine++;
+                else if (this.holding.ID == BOOK.DGE_BOOK)this.skill_dodge++;
+                else if (this.holding.ID == BOOK.CRD_BOOK)this.skill_coordination++;
+                else if (this.holding.ID == BOOK.MLE_BOOK)this.skill_melee++;
+                else if (this.holding.ID == BOOK.RNG_BOOK)this.skill_range++;
+                else if (this.holding.ID == BOOK.TEK_BOOK)this.skill_tek++;
+                else if (this.holding.ID == BOOK.PGM_BOOK)this.skill_programming++;
+                else if (this.holding.ID == BOOK.LRN_BOOK)this.skill_learning++;
+                else if (this.holding.ID == BOOK.LCK_BOOK)this.skill_luck++;
                 changeText(TEXT.INV);
                 this.holding=null;
                 drawInventory();
@@ -310,51 +337,60 @@ function Player(){
     ///utilities methods///
     
     this.levelUp = function(){//changes charater when level up occurs
-        var text = "Level Up! ";
+        let text = "Level Up! ";
         this.level++;
         this.xp = this.xp - this.xpMax;//reset xp
-        var hpUp = Math.floor(this.endurance / 2) + Math.floor(this.intelligence / 4) + Math.floor(this.strength / 4);//calculates how much health is incremented by
+        //var hpUp = Math.floor(this.endurance / 2) + Math.floor(this.intelligence / 4) + Math.floor(this.strength / 4);//calculates how much health is incremented by
+        let hpUp = Math.floor(this.skill_learning / 2) + Math.floor(this.skill_medicine / 2); //calculates how much health is incremented by
         if (hpUp < 1) {//just incase health increment is low
             hpUp = 1;
         }
         this.hpMax += hpUp;//adds to max health
         
         this.hp = Math.ceil((this.hp + this.hpMax) / 2); //gets average of health
-        var rand = Math.floor(Math.random()*7);
+        var rand = Math.floor(Math.random()*9);
         if(this.level % 2 == 0 && this.inventory[0][0]!=undefined){
                 var w = this.inventory[0][0];
-                if(weaponType[w.ID] == MELEE)rand = 0;
-                else if(weaponType[w.ID] == RANGE)rand=1;
-                else if(weaponType[w.ID] == TEK)rand=4;
+                if(weaponType[w.ID] == MELEE)rand = 3;
+                else if(weaponType[w.ID] == RANGE)rand=4;
+                else if(weaponType[w.ID] == TEK)rand=5;
         }
         switch(rand){//figures out what SPECIAL should be upgraded
             case 0:
-                this.strength++;
-                text += "STR up 1, HP up " + hpUp;
+                this.skill_medicine++;
+                text += "Medic +1, HP up " + hpUp;
                 break;
             case 1:
-                this.perception++;
-                text += "PER up 1, HP up " + hpUp;
+                this.skill_dodge++;
+                text += "Dodge +1, HP up " + hpUp;
                 break;
             case 2:
-                this.endurance++;
-                text += "END up 1, HP up " + hpUp;
+                this.skill_coordination++;
+                text += "Coord +1, HP up " + hpUp;
                 break;
             case 3:
-                this.charisma++;
-                text += "CHA up 1, HP up " + hpUp;
+                this.skill_melee++;
+                text += "Melee +1, HP up " + hpUp;
                 break;
             case 4:
-                this.intelligence++;
-                text += "INT up 1, HP up " + hpUp;
+                this.skill_range++;
+                text += "Range +1, HP up " + hpUp;
                 break;
             case 5:
-                this.agility++;
-                text += "AGI up 1, HP up " + hpUp;
+                this.skill_tek++;
+                text += "Tek +1, HP up " + hpUp;
+                break;
+            case 6:
+                this.skill_programming++;
+                text += "Progm +1, HP up " + hpUp;
+                break;
+            case 7:
+                this.skill_learning++;
+                text += "Learn +1, HP up " + hpUp;
                 break;
             default:
-                this.luck++;
-                text += "LCK up 1, HP up " + hpUp;
+                this.skill_luck++;
+                text += "Luck +1, HP up " + hpUp;
                 break;
         }
         consolePrint(text);
@@ -362,14 +398,14 @@ function Player(){
     }
     
     this.addXP = function(plus){//gaining experience
-        this.xp += (plus + Math.floor(this.luck/2));
+        this.xp += plus;
         while(this.xp >= this.xpMax){
             this.levelUp();
         }
     }
     
     this.setStartingGear = function(){//sets up character for game
-        if(this.perception >= this.strength){//weapon setup
+        if(this.skill_range >= this.skill_melee){//weapon setup
             var weap = new Weapon();
             weap.setupInvWeapon(WEAPON.RANGED_TAZOR);
             this.inventory[0][0] = weap;
@@ -380,7 +416,7 @@ function Player(){
             this.inventory[0][0] = weap;
         }
         
-        if(this.endurance >= this.intelligence){//armor or scroll
+        if(this.skill_dodge >= this.skill_programming){//armor or scroll
             var armo = new Armor();
             armo.setupInvArmor(ARMOR.LEATHER);
             this.inventory[1][0] = armo;
@@ -394,13 +430,13 @@ function Player(){
             this.inventory[2][1] = scr3;
         }
         
-        if(this.strength > this.endurance){//better armor
+        if(this.skill_coordination > this.skill_dodge){//better armor
             var armo = new Armor();
             armo.setupInvArmor(ARMOR.CHAINMAIL);
             this.inventory[1][0] = armo;
         }
         
-        if(this.luck > this.charisma){
+        if(this.skill_luck > this.skill_programming){
             var scr1 = new Scroll();
             scr1.setupInvScroll(Math.floor(Math.random() * scrollName.length));
             this.inventory[3][1] = scr1;

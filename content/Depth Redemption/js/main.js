@@ -96,7 +96,7 @@
         game.load.spritesheet('armors','Resources/armor_strip8.png', tSize, tSize, 8);
         game.load.spritesheet('armors_wearing','Resources/armor_wearing_strip8.png', tSize, tSize, 8);
         game.load.spritesheet('scrolls','Resources/scrolls_strip11.png', tSize, tSize, 11);
-        game.load.spritesheet('items','Resources/item_misc_strip9.png', tSize, tSize, 9);
+        game.load.spritesheet('items','Resources/item_misc_strip11.png', tSize, tSize, 11);
         game.load.image('inventory', 'Resources/inventory.png', 96, 120);
         game.load.spritesheet('crosshairs', 'Resources/crosshair_strip5.png', tSize, tSize, 5);
         game.load.spritesheet('minimap_tiles', 'Resources/map_strip11.png', 5,5,11);
@@ -132,8 +132,6 @@
 
 
     function init(){//things that need to be loaded once
-        console.log(game.camera.x + " : " + game.camera.y);
-        console.log(game.camera)
         mainMenu = new Main_Menu();
         //map = new Floor();
         player = new Player();
@@ -471,7 +469,7 @@
     }
     
     function drawPlayer(){//draws player at locations
-        console.log(renderOrder);
+        //console.log(renderOrder);
         //player_anim = game.add.sprite((player.x - windowViewX) * tSize, (player.y - windowViewY) * tSize,'player');
         //game.add.sprite((player.x - windowViewX) * tSize, (player.y - windowViewY) * tSize,'player');
         renderOrder[RENDER_LAYERS.PLAYER].getChildAt(0).x = player.x * tSize;
@@ -645,14 +643,24 @@
                 charText.setText("F" + (mapCounter + 1) + " LV" + player.level + " HP:" + player.hp + "/" + player.hpMax + " XP:" + player.xp + "/" + player.xpMax, true, 0, 0, Phaser.RetroFont.ALIGN_LEFT);
                 //game.add.image(2,0, charText);
                 break;
-            case TEXT.INV:
-                text += "Str: " + player.strength + "\n";
-                text += "Per: " + player.perception + "\n";
-                text += "End: " + player.endurance + "\n";
-                text += "Cha: " + player.charisma + "\n";
-                text += "Int: " + player.intelligence + "\n";
-                text += "Agi: " + player.agility + "\n";
-                text += "Lck: " + player.luck + "\n";
+            case TEXT.INV: 
+                //text += "Str: " + player.strength + "\n";
+                //text += "Per: " + player.perception + "\n";
+                //text += "End: " + player.endurance + "\n";
+                //text += "Cha: " + player.charisma + "\n";
+                //text += "Int: " + player.intelligence + "\n";
+                //text += "Agi: " + player.agility + "\n";
+                //text += "Lck: " + player.luck + "\n";
+                
+                text += "Medic: " + player.skill_medicine + "\n";
+                text += "Dodge: " + player.skill_dodge + "\n";
+                text += "Coord: " + player.skill_coordination + "\n";
+                text += "Melee: " + player.skill_melee + "\n";
+                text += "Range: " + player.skill_range + "\n";
+                text += "Tek:   " + player.skill_tek + "\n";
+                text += "Progm: " + player.skill_programming + "\n";
+                text += "Learn: " + player.skill_learning + "\n";
+                text += "Luck:  " + player.skill_luck + "\n";
                 invText.setText(text, true, 0, 1, Phaser.RetroFont.ALIGN_LEFT);
                 //game.add.image(126,tSize, invText);
                 break;

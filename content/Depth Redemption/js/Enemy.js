@@ -135,7 +135,8 @@ function Enemy(){
     }
     
     this.attack = function(){
-        if (Math.floor(Math.random()*90) >= (player.agility*6 + player.luck+20)) { //player doesnt dodge
+        //if (Math.floor(Math.random()*90) >= (player.agility*6 + player.luck+20)) { //player doesnt dodge
+        if (Math.floor(Math.random()*90) >= (player.skill_dodge*7 + player.skill_luck+20)) { //player doesnt dodge
             var damageGive = Math.floor((unitDamage[this.ID]+1)*Math.random());
             
             if(player.inventory[1][0] != undefined){

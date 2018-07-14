@@ -66,16 +66,18 @@ var ITEM = {
 var BOOK = {
     MEDIKIT : 0,
     MAP_PAD : 1,
-    STR_BOOK : 2,
-    PER_BOOK : 3,
-    END_BOOK : 4,
-    CHA_BOOK : 5,
-    INT_BOOK : 6,
-    AGI_BOOK : 7,
-    LCK_BOOK : 8
+    MDC_BOOK : 2, 
+    DGE_BOOK : 3, 
+    CRD_BOOK : 4,
+    MLE_BOOK : 5,
+    RNG_BOOK : 6,
+    TEK_BOOK : 7,
+    PGM_BOOK : 8,
+    LRN_BOOK : 9,
+    LCK_BOOK : 10
 };
 
-var bookName = ["Medikit","Map Pad", "STR Book","PERC Book","END Book","CHA Book", "INT Book", "AGIL Book","LUCK Book"];
+var bookName = ["Medikit", "Map Pad", "Medic Book", "Dodge Book", "Coordination Book", "Melee Book", "Range Book", "Tek Book", "Programming Book", "Learning Book", "Luck Book"];
 
 var DROPRATE = {
     GUARD_WEAPON_RANGED_TAZOR : 0.6,
@@ -172,4 +174,4 @@ var MENU = {
     ABOUT : 3,
     VERSION : 4,
 }
-var menuTitles = ["Depth Redemption v2.1"," Start"," Controls"," About - by Noah Parker"," Version History"];
+var menuTitles = ["Depth Redemption v2.2"," Start"," Controls"," About - by Noah Parker"," Version History"];

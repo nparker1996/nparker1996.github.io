@@ -400,7 +400,6 @@ function Floor(){
     }
     
     this.generateEnemies = function(iterations){//generate enemies on the level
-        console.log(this.enemyProbability);
         if(iterations <= 0){return;}//no enemies will appear in level
         let tries = 200;
         while(this.getTotalEnemies() < this.level + 1 && tries > 0){//make sure there are at least some enemies
@@ -422,10 +421,7 @@ function Floor(){
             x=2+Math.floor(Math.random()*(this.tiles.length-4));
             y=2+Math.floor(Math.random()*(this.tiles[0].length-4));
             if(!this.isSolid(x, y)){
-                //var newBook = new Item();
-                //newBook.setupBook(x,y,Math.floor(Math.random()*8));
-                //this.items[x][y] = newBook;
-                let itemNum = Math.floor(Math.random()*BOOK.length);
+                let itemNum = Math.floor(Math.random()*bookName.length);
                 if(itemNum != BOOK.MAP_PAD){
                     this.createWorldItem(x,y,ITEM.BOOKS,itemNum);
                     i++;
@@ -437,9 +433,6 @@ function Floor(){
             x = 2 + Math.floor (Math.random() * (this.tiles.length-4));
             y = 2 + Math.floor (Math.random() * (this.tiles[0].length-4));
             if (!this.isSolid(x, y)) {
-                //var newScroll = new Scroll();
-                //newScroll.setupScroll(x, y, Math.floor(Math.random() * scrollName.length));
-                //this.items[x][y] = newScroll;
                 this.createWorldItem(x,y,ITEM.SCROLLS,Math.floor(Math.random() * scrollName.length));
                 i++;
             }
@@ -450,9 +443,6 @@ function Floor(){
             y = 2 + Math.floor(Math.random() * (this.tiles[0].length-4));
             if (!this.isSolid(x, y)) {
                 var id = Math.floor(Math.random() * (this.level / 3 + 1)) % armorName.length;
-                //var newArmor = new Armor();
-                //newArmor.setupArmor(x, y, id);
-                //this.items[x][y] = newArmor;
                 this.createWorldItem(x,y,ITEM.ARMORS,id);
                 i++;
             }
@@ -469,9 +459,6 @@ function Floor(){
             while (weaponDamage[id] > this.level / 2 + 2) {//weapons are not too strong
                 id = Math.floor (Math.random() * 100) % weaponName.length;
             }
-            //var newWeapon = new Weapon();
-            //newWeapon.setupWeapon(x, y, id);
-            //this.items[x][y] = newWeapon;
             this.createWorldItem(x,y,ITEM.WEAPONS,id);
             i++;
         }
@@ -483,9 +470,6 @@ function Floor(){
                 y = 2 + Math.floor (Math.random() * (this.tiles[0].length-4));
                 if (!this.isSolid(x, y)) {
                     var id = Math.floor(15 + Math.random() * 8) % weaponName.length;
-                    //var newWeapon = new Weapon();
-                    //newWeapon.setupWeapon(x, y, id);
-                    //this.items[x][y] = newWeapon;
                     this.createWorldItem(x,y,ITEM.WEAPONS,id);
                     i++;
                 }
@@ -507,7 +491,7 @@ function Floor(){
         var y2 = Math.min(map.tiles[0].length, player.y + 4);
         var line = new Phaser.Line();
         var coordsOnLine = new Array();
-        console.log(player.x + " : " + player.y);
+        //console.log(player.x + " : " + player.y);
         for(var i = x1; i<= x2; i++){
             for(var j = y1; j <= y2; j++){
                 if(i == x1 || i == x2 || j == y1 || j == y2){//if an edge tile
@@ -531,7 +515,7 @@ function Floor(){
                 }
             }
         }
-        console.log(this.visible);
+        //console.log(this.visible);
     }
     
     this.setDistanceToPlayer = function(maxDistance){//calculates how far a tile is from the player
@@ -574,9 +558,10 @@ function Floor(){
                 if (this.enemies[i][j] != undefined) {//tile not empty
                     var e1 = this.enemies[i][j];
                     if (e1.hp <= 0) {//enemy is dead
-                        consolePrint("You slayed a " + e1.name + ". " +"+"+(unitHP[e1.ID]+player.luck/2)+"xp");
+                        let xpUp = unitHP[e1.ID] + Math.floor(player.skill_learning/2) + Math.floor(player.skill_luck/4);
+                        consolePrint("You slayed a " + e1.name + ". " +"+"+xpUp+"xp");
                         this.dropItem(i,j,e1.ID);
-                        player.addXP(unitHP[e1.ID]);
+                        player.addXP(xpUp);
                         this.enemies[i][j] = undefined;
                     } else if (e1.x != i || e1.y != j) {//enemy moved
                         if (this.enemies[e1.x][e1.y] == undefined) {
@@ -703,16 +688,12 @@ function Floor(){
             changeState(STATE.UPDATE);
         }
         else if(this.tiles[xPos][yPos] == this.TILE.CLOSE_LOCKED_DOOR){
-            if(Math.random() * 100 < 40 + (player.luck*2) + player.strength){//lockpicking
+            if(Math.random() * 100 < 40 + player.skill_luck*2 + (player.skill_programming*3)){//lockpicking
                 this.tiles[xPos][yPos] = this.TILE.OPEN_DOOR;
-                if(Math.random() * 100 < 10 + player.luck){
-                    player.addXP(2);
-                    consolePrint("The door opens. +2 xp")
-                }
-                else{
-                    player.addXP(1);
-                    consolePrint("The door opens. +1 xp");
-                }
+                let unlockXP = 1 + Math.floor(player.skill_learning/4);
+                player.addXP(unlockXP);
+                consolePrint("The door opens. +" + unlockXP + " xp");
+                
             }
             else{//door doesnt budge
                 consolePrint("The door won't budge");
@@ -752,7 +733,7 @@ function Floor(){
     this.generateFromImage = function(mapName) //generates a level from a map
     {
         var bitmap = game.make.bitmapData(32,32);
-        console.log(bitmap);
+        //console.log(bitmap);
         bitmap.draw(mapName); //sets the image to the bitmap
         bitmap.update();
         this.clearTiles();
@@ -859,7 +840,7 @@ function Floor(){
                 
             }
         }
-        console.log(this.tiles);
+        //console.log(this.tiles);
     }
     
     
