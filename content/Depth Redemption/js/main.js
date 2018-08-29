@@ -136,7 +136,7 @@
         //map = new Floor();
         player = new Player();
         
-        menuText = game.add.retroFont('font', 10, 12, textSet);//creating font
+        menuText = game.add.retroFont('font', 10, 10, textSet);//creating font
         charText = game.add.retroFont('font', 10, 12, textSet);//creating font
         invText = game.add.retroFont('font', 10, 12, textSet);//creating font
         consoleText = game.add.retroFont('font', 10, 12, textSet);//creating font
@@ -381,7 +381,7 @@
         
         //text
         renderOrder[RENDER_LAYERS.TEXT].removeAll(true);
-        renderOrder[RENDER_LAYERS.TEXT].addChild(game.add.image(24, 24, menuText));
+        renderOrder[RENDER_LAYERS.TEXT].addChild(game.add.image(14, 18, menuText));
         renderOrder[RENDER_LAYERS.TEXT].addChild(game.add.image(2, 0, charText));
         renderOrder[RENDER_LAYERS.TEXT].addChild(game.add.image(126,tSize, invText));
         renderOrder[RENDER_LAYERS.TEXT].addChild(game.add.image(2,168, consoleText));
